@@ -1,4 +1,32 @@
-plot_violin = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=10){
+#' One explanatory variable at a time violin plotter
+#'
+#' @usage plot_violin_1x(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=10)
+#'
+#' @param dat ataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
+#' @param response_variable_name string referring to the variable name of the response variable [mandatory]
+#' @param explanatory_variable_name string referring to the variable name of the explanatory variable [mandatory]
+#' @param title string corresponding to the explanatory term including additive and interaction terms in the formula [default=""]
+#' @param xlab string specifing the x-axis label [default=""]
+#' @param ylab string specifing the y-axis label [default=""]
+#' @param COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
+#' @param BAR_COLOURS vector of colours of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
+#' @param XTICKS logical referring to whether the explanatory variable is strictly categorcial [default=TRUE]
+#' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
+#' @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
+#'
+#' @return Return 0 if successful
+#'
+#' @examples
+#' x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
+#' x2 = rep(rep(letters[6:10], each=5*5), times=5)
+#' x3 = rep(letters[11:15], each=5*5*5)
+#' y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1)) ### x3 is the variable affecting y (see each=5*5*5)
+#' data = data.frame(x1, x2, x3, y)
+#' formula = y ~ x1 + x2 + x3 + (x2:x3)
+#' DF = parse_formula(formula=formula, data=data)
+#' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
+
+plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=10){
   ### extract the dependent or response or y variable, as well as the independent or explanatory or x variable
   x = eval(parse(text=paste0("dat$`", explanatory_variable_name, "`"))) ### numeric or categorical
   x = as.factor(gsub("-", "", x)) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
@@ -94,6 +122,5 @@ plot_violin = function(dat, response_variable_name, explanatory_variable_name, t
   ### show the summary statistics legend
   legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS), cex=0.75, lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", "95% Confidence Interval"))
   ### return the levels and unique values of the x variable
-  return(list(x_levels=x_levels, x_numbers=x_numbers))
+  return(0)
 }
-

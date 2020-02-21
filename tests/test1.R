@@ -1,22 +1,7 @@
-# violinplotter
-## R package for plotting and comparing means with violin plots
+### Test using R-generated dummy dataset
 
-Just another violin plotter with mean comparison bars and optional HSD grouping and regression line.
-
-## Usage
-```
-violinplotter(dat, response_var, explanatory_var, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=1, HSD=TRUE, REGRESS=FALSE)
-```
-
-## Manual
-```
 library(violinplotter)
-?violinplotter
-```
 
-## Examples
-```
-library(violinplotter)
 x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
 x2 = rep(rep(letters[6:10], each=5*5), times=5)
 x3 = rep(letters[11:15], each=5*5*5)
@@ -35,5 +20,3 @@ HSDX=TRUE
 ALPHA=0.05
 REGRESSX=TRUE
 OUT = violinplotter(formula=formula, data=data, TITLE=TITLE, XLAB=XLAB, YLAB=YLAB, VIOLIN_COLOURS=VIOLIN_COLOURS, ERROR_BAR_COLOURS=ERROR_BAR_COLOURS, XCATEGOR=XCATEGOR, LOGX=LOGX, LOGX_BASE=LOGX_BASE, HSDX=HSDX, ALPHA=ALPHA, REGRESSX=REGRESSX)
-
-```

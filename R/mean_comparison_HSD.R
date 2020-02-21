@@ -1,18 +1,34 @@
-mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, x_levels=x_levels, x_numbers=x_numbers, PLOT=FALSE) {
-  # explanatory_variable_name = "x1"; alpha = 0.05
-	# mod = aov(formula, data=data)
-  # anova_table = as.data.frame(anova(mod))
-  # if (anova_table$Pr[rownames(anova_table) == explanatory_variable_name] < alpha){
-  #   print(anova_table)
-  #   print(paste0(explanatory_variable_name, " has a significant effect on the response variable!"))
-  # } else {
-  #   print(anova_table)
-  #   print(paste0(explanatory_variable_name, " has a no significant effect on the response variable!"))
-  # }
+#' Tukey's mean comparison and grouping using fixed effect linear modelling with optional plotting of grouping letters
+#'
+#' @usage mean_comparison_HSD(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE)
+#'
+#' @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
+#' @param data data.frame containing the response and explantory variables which forms the formula above [default=NULL]
+#' @param explanatory_variable_name string referring to the variable name of the explanatory variable whose class means will be compared [mandatory]
+#' @param alpha numeric significance level for Tukey's mean comparison [default=0.05]
+#' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
+#' @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
+#' @param PLOT logical referring to whether plot the HSD mean comparison grouping into an existing plot [default=FALSE]
+#'
+#' @return Tukey's honest significant difference (HSD) grouping table with response variable categorical means, grouping, level names and corresponding numeric counterparts
+#' @return Appends HSD grouping letters into an existing plot
+#'
+#' @examples
+#' x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
+#' x2 = rep(rep(letters[6:10], each=5*5), times=5)
+#' x3 = rep(letters[11:15], each=5*5*5)
+#' y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1)) ### x3 is the variable affecting y (see each=5*5*5)
+#' data = data.frame(x1, x2, x3, y)
+#' formula = y ~ x1 + x2 + x3 + (x2:x3)
+#' DF = parse_formula(formula=formula, data=data)
+#' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
+#' HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
+
+mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE) {
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
   df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)
   response_var = df[,1]; response_var_name = colnames(df)[1]
-  explanatory_var = df[,2:ncol(df)]; explanatory_var_name = colnames(df)[2:ncol(df)]
+  # explanatory_var = df[,2:ncol(df)]; explanatory_var_name = colnames(df)[2:ncol(df)]
   ### linear modelling
   mod = aov(formula, data=df)
   anova_table = as.data.frame(anova(mod))
@@ -75,6 +91,9 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
     GROUPING_LIST$LEVELS = as.factor(round(log(as.numeric(as.character(GROUPING_LIST$LEVELS)), base=BASE), 2))
   }
   ### prepare the explanatory variable names and corresponding numbers
+  x_levels = eval(parse(text=paste0("levels(as.factor(df$`", explanatory_variable_name, "`))")))
+  x_numbers = tryCatch(eval(parse(text=paste0("as.numeric(as.character(df$`", explanatory_variable_name, "`))"))),
+                  warning=function(e){as.numeric(as.factor(x_levels))})
   X_LEVELS_AND_NUMBERS = data.frame(LEVELS=x_levels, NUMBERS=x_numbers)
   ### merge and append the grouping letters together with the means
   colnames(means) = c("LEVELS", "MEANS")
@@ -84,4 +103,3 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   }
   return(MERGE_GROUPING_DF)
 }
-

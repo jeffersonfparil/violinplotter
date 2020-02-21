@@ -1,14 +1,14 @@
-Package: myfirstpackage
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Package: violinplotter
+Title: R package for plotting and comparing means with violin plots
+Version: 0.0.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Jefferson",
+           family = "Paril",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+           email = c("jparil@student.unimelb.edu.au", "jfparil@up.edu.ph"),
+           comment = c(ORCID = "0000-0002-5693-4123"))
+Description: Just another violin plotter with mean comparison bars and optional HSD grouping and regression line.
+License: CC BY-NC 4.0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
