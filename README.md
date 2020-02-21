@@ -9,9 +9,14 @@ violinplotter(dat, response_var, explanatory_var, title="", xlab="", ylab="", CO
 ```
 
 ## Manual
+Download the repository:
 ```
-library(violinplotter)
-?violinplotter
+wget https://github.com/jeffersonfparil/violinplotter/archive/master.zip
+echo -e "print(.libPaths()[1])" > libpath.r
+YOUR_RLIB_PATH=$(Rscript libpath.r | cut -d' ' -f2)
+R CMD INSTALL -l ${YOUR_RLIB_PATH} violinplotter-master.zip
+# library(violinplotter)
+# ?violinplotter
 ```
 
 ## Examples
