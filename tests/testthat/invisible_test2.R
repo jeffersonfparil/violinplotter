@@ -1,7 +1,4 @@
 ### Test using dummy data from the data directory
-
-library(violinplotter)
-
 data = read.csv("data/beauty_dummy_data.csv")
 str(data)
 formula=beauty ~ food*people
@@ -18,4 +15,3 @@ HSDX=TRUE
 ALPHA=0.05
 REGRESSX=FALSE
 OUT = violinplotter(formula=formula, data=data)
-
