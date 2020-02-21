@@ -18,4 +18,4 @@ r_packages:
 
 # only report coverage after build is successful
 after_success:
-  - Rscript -e 'covr::codecov()'
+  - test $TRAVIS_R_VERSION_STRING = 'release' && Rscript -e 'covr::codecov()'
