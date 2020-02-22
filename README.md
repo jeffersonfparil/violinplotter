@@ -46,8 +46,8 @@ x3 = rep(letters[11:15], each=5*5*5)
 y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1)) ### x3 is the variable affecting y (see each=5*5*5)
 data = data.frame(x1, x2, x3, y)
 OUT = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.05)
-`
-``
+```
+
 Dummy dataset:
 
 ```r
