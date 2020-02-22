@@ -1,17 +1,17 @@
 language: r
 
-sudo: required
+# sudo: required
 
 warnings_are_errors: false
 
-env: _R_CHECK_CRAN_INCOMING_=FALSE
-
-r_packages:
-  - covr
-  - devtools
-
-r_github_packages:
-  - codecov/example-r
+# env: _R_CHECK_CRAN_INCOMING_=FALSE
+#
+# r_packages:
+#   - covr
+#   - devtools
+#
+# r_github_packages:
+#   - codecov/example-r
 
 after_success:
   - Rscript -e 'library(covr);codecov()'
