@@ -12,7 +12,7 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("
 ?violinplotter ### for more information
 ```
 
-## Manual
+## Installation
 
 Download the repository as a zip file or using the shell script:
 
