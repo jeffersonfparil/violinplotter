@@ -12,4 +12,3 @@ HSD is an acronym for Tukey's Honest Signficant Difference.
 
 ## Unexpected files and folders
 The "misc/" directory is storing a png image used in the README.md file
-

@@ -13,9 +13,9 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 \arguments{
 \item{formula}{R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]}
 
-\item{data}{data.frame containing the response and explantory variables which forms the formula above [default=NULL]}
+\item{data}{data.frame containing the response and explanatory variables which forms the formula above [default=NULL]}
 
-\item{TITLE}{string or vector of strings corresponding to violin plot title/s [default: combinations of the "response variable name X explantory variable" from the dataframe column names]}
+\item{TITLE}{string or vector of strings corresponding to violin plot title/s [default: combinations of the "response variable name X explanatory variable" from the dataframe column names]}
 
 \item{XLAB}{string or vector of strings specifying the x-axis labels [default: column names of the explanatory variables (and their combinations) from data]}
 
@@ -35,7 +35,7 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 
 \item{ALPHA}{numeric significance level for the analysis of variance F-test and Tukey's mean comparison [default=0.05]}
 
-\item{REGRESSX}{logical or vector of logicals referring to whether to regress the response variable against the explantory variable/s [default=FALSE]}
+\item{REGRESSX}{logical or vector of logicals referring to whether to regress the response variable against the explanatory variable/s [default=FALSE]}
 }
 \value{
 Violin plot/s with optional error bars, mean comparison grouping/s, and regression line/s

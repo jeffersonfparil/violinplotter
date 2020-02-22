@@ -3,7 +3,7 @@
 #' @usage parse_formula(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean)
 #'
 #' @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
-#' @param data data.frame containing the response and explantory variables which forms the formula above [default=NULL]
+#' @param data data.frame containing the response and explanatory variables which forms the formula above [default=NULL]
 #' @param IMPUTE logical referring to whether impute missing and infinite datapoints [default=FALSE]
 #' @param IMPUTE_METHOD imputation function to use [default=mean]
 #'

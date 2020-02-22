@@ -7,8 +7,8 @@
 #'               ALPHA=0.05, REGRESSX=FALSE)
 #'
 #' @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
-#' @param data data.frame containing the response and explantory variables which forms the formula above [default=NULL]
-#' @param TITLE string or vector of strings corresponding to violin plot title/s [default: combinations of the "response variable name X explantory variable" from the dataframe column names]
+#' @param data data.frame containing the response and explanatory variables which forms the formula above [default=NULL]
+#' @param TITLE string or vector of strings corresponding to violin plot title/s [default: combinations of the "response variable name X explanatory variable" from the dataframe column names]
 #' @param XLAB string or vector of strings specifying the x-axis labels [default: column names of the explanatory variables (and their combinations) from data]
 #' @param YLAB string or vector of strings specifying the y-axis labels [default: column names of the response variable from data]
 #' @param VIOLIN_COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
@@ -18,7 +18,7 @@
 #' @param LOGX_BASE numeric or vector of numerics referring to the logarithm base to transform the explanatory variable/s with [default=1]
 #' @param HSDX logical or vector of logicals referring to whether to perform Tukey's Honest Significance Grouping [default=TRUE]
 #' @param ALPHA numeric significance level for the analysis of variance F-test and Tukey's mean comparison [default=0.05]
-#' @param REGRESSX logical or vector of logicals referring to whether to regress the response variable against the explantory variable/s [default=FALSE]
+#' @param REGRESSX logical or vector of logicals referring to whether to regress the response variable against the explanatory variable/s [default=FALSE]
 #'
 #' @return Violin plot/s with optional error bars, mean comparison grouping/s, and regression line/s
 #' @return Mean comparison grouping/s based on Tukey's Hones significant difference and regression line statistics, if applicable
