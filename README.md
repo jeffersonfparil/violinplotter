@@ -16,15 +16,9 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("
 
 ## Installation
 
-[Download the repository as a zip file](https://github.com/jeffersonfparil/violinplotter/archive/master.zip) or using the shell script:
-
-```shell
-wget https://github.com/jeffersonfparil/violinplotter/archive/master.zip
-unzip master.zip
-```
-
-Uzip, and navigate inside the *violinplotter-master/* directory.
-Open R (within the *violinplotter-master/* directory), build and install via:
+[Download the repository as a zip file](https://github.com/jeffersonfparil/violinplotter/archive/master.zip).
+Unzip, and navigate inside the *violinplotter-master/* directory.
+Open R (inside the *violinplotter-master/* directory), build and install via:
 
 ```r
 ### build the package into the base directory (one level lower)
