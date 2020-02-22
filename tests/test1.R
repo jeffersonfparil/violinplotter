@@ -1,4 +1,5 @@
 ### Test using R-generated dummy dataset
+library(violinplotter)
 x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
 x2 = rep(rep(letters[6:10], each=5*5), times=5)
 x3 = rep(letters[11:15], each=5*5*5)
