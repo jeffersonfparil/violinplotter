@@ -16,6 +16,8 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("
 
 ## Installation
 
+We are currently working on getting this package available in the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/) for ease of installation and greater visibility. But for now please follow the installation instructions below.
+
 [Download the repository as a zip file](https://github.com/jeffersonfparil/violinplotter/archive/master.zip).
 Unzip, and navigate inside the *violinplotter-master/* directory.
 Open R (inside the *violinplotter-master/* directory), build and install via:
