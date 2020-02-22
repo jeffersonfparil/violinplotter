@@ -1,7 +1,7 @@
 # violinplotter
 ## R package for plotting and comparing means with violin plots
 
-![](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)
+![](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master) [![codecov](https://codecov.io/gh/jeffersonfparil/violinplotter/branch/master/graph/badge.svg)](https://codecov.io/gh/jeffersonfparil/violinplotter)
 
 Just another violin plotter with mean comparison bars and optional HSD grouping and regression line.
 
