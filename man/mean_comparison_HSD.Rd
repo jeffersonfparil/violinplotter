@@ -40,4 +40,5 @@ formula = y ~ x1 + x2 + x3 + (x2:x3)
 DF = parse_formula(formula=formula, data=data)
 plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
 HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
+
 }

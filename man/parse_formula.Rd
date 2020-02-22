@@ -29,4 +29,5 @@ y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
 data = data.frame(x1, x2, x3, y)
 formula = y ~ x1 + x2 + x3 + (x2:x3)
 DF = parse_formula(formula=formula, data=data)
+
 }

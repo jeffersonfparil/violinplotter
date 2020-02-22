@@ -29,7 +29,10 @@
 #' formula = y ~ x1 + x2 + x3 + (x2:x3)
 #' DF = parse_formula(formula=formula, data=data)
 #' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
-
+#'
+#' @importFrom stats qnorm density
+#' @importFrom graphics par plot axis polygon arrows points grid par
+#'
 #' @export
 plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=10){
   ### extract the dependent or response or y variable, as well as the independent or explanatory or x variable
@@ -39,6 +42,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   # y = rnorm(length(y)) ### null test
   ### merge them into a data frame for ease of handling
   ### while converting the x variable into both categorical and numeric variables
+  x_categorical = NA
   df = tryCatch(
           data.frame(y=y, x_categorical=as.factor(as.character(x)), x_numeric=as.numeric(as.character(x))),
           warning=function(e){

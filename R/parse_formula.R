@@ -17,7 +17,9 @@
 #' data = data.frame(x1, x2, x3, y)
 #' formula = y ~ x1 + x2 + x3 + (x2:x3)
 #' DF = parse_formula(formula=formula, data=data)
-
+#'
+#' @importFrom stats terms complete.cases
+#'
 #' @export
 parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
   ### parse the input formula

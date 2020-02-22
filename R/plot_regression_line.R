@@ -25,7 +25,10 @@
 #' HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
 #' REGRESS = plot_regression_line(dat=DF, response_variable_name="y",
 #'                                explanatory_variable_name="x3")
-
+#'
+#' @importFrom stats lm
+#' @importFrom graphics lines legend
+#'
 #' @export
 plot_regression_line = function(dat, response_variable_name, explanatory_variable_name, LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray"){
   x_levels = eval(parse(text=paste0("levels(as.factor(dat$`", explanatory_variable_name, "`))")))

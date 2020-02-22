@@ -24,7 +24,10 @@
 #' DF = parse_formula(formula=formula, data=data)
 #' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
 #' HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
-
+#'
+#' @importFrom stats aov anova sd
+#' @importFrom graphics text
+#'
 #' @export
 mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE) {
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
