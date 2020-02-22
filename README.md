@@ -51,6 +51,6 @@ Dummy dataset:
 library(violinplotter)
 data(dummy_data)
 str(dummy_data)
-BEAUTY = violinplotter(formula = beauty ~ food*people, data=dummy_data)
-FEET_QUALITY = violinplotter(formula = feet_quality ~ food*people, data=dummy_data)
+OUT_1 = violinplotter(formula = RESPONSE_1 ~ STRATUM*TREATMENT, data=dummy_data)
+OUT_2 = violinplotter(formula = RESPONSE_1 ~ STRATUM*TREATMENT, data=dummy_data)
 ```
