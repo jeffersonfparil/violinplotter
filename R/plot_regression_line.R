@@ -3,13 +3,13 @@
 #' @usage plot_regression_line(dat, response_variable_name, explanatory_variable_name,
 #'                      LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray")
 #'
-#' @param dat ataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
+#' @param dat dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
 #' @param response_variable_name string referring to the variable name of the response variable [mandatory]
 #' @param explanatory_variable_name string referring to the variable name of the explanatory variable [mandatory]
 #' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
 #' @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
 #' @param PLOT logical referring to whether to plot the regression line into the existing plot [default=FALSE]
-#' @param LINE_COL string referring to the color or the gression line [default="gray"]
+#' @param LINE_COL string referring to the color or the regression line [default="gray"]
 #'
 #' @return Linear regression statistics (completely fixed linear model): intercept, slope and coefficient of determination adjusted-R^2
 #'

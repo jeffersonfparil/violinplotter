@@ -11,7 +11,7 @@ plot_violin_1x(dat, response_variable_name, explanatory_variable_name,
                XTICKS=TRUE, LOG=FALSE, BASE=10)
 }
 \arguments{
-\item{dat}{ataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]}
+\item{dat}{dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]}
 
 \item{response_variable_name}{string referring to the variable name of the response variable [mandatory]}
 
@@ -19,15 +19,15 @@ plot_violin_1x(dat, response_variable_name, explanatory_variable_name,
 
 \item{title}{string corresponding to the explanatory term including additive and interaction terms in the formula [default=""]}
 
-\item{xlab}{string specifing the x-axis label [default=""]}
+\item{xlab}{string specifying the x-axis label [default=""]}
 
-\item{ylab}{string specifing the y-axis label [default=""]}
+\item{ylab}{string specifying the y-axis label [default=""]}
 
 \item{COLOURS}{vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]}
 
-\item{BAR_COLOURS}{vector of colours of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]}
+\item{BAR_COLOURS}{vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]}
 
-\item{XTICKS}{logical referring to whether the explanatory variable is strictly categorcial [default=TRUE]}
+\item{XTICKS}{logical referring to whether the explanatory variable is strictly categorical [default=TRUE]}
 
 \item{LOG}{logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]}
 

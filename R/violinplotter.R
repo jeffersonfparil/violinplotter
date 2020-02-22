@@ -12,7 +12,7 @@
 #' @param XLAB string or vector of strings specifying the x-axis labels [default: column names of the explanatory variables (and their combinations) from data]
 #' @param YLAB string or vector of strings specifying the y-axis labels [default: column names of the response variable from data]
 #' @param VIOLIN_COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
-#' @param ERROR_BAR_COLOURS vector of colours of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
+#' @param ERROR_BAR_COLOURS vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
 #' @param XCATEGOR logical or vector of logicals referring to whether the explanatory variable/s is/are strictly categorical [default=TRUE]
 #' @param LOGX logical or vector of logicals referring to whether to transform the explanatory variable/s into the logarithm scale [default=FALSE]
 #' @param LOGX_BASE numeric or vector of numerics referring to the logarithm base to transform the explanatory variable/s with [default=1]

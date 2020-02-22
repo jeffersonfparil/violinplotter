@@ -2,7 +2,7 @@
 % Please edit documentation in R/mean_comparison_HSD.R
 \name{mean_comparison_HSD}
 \alias{mean_comparison_HSD}
-\title{Tukey's mean comparison and grouping using fixed effect linear modelling with optional plotting of grouping letters}
+\title{Tukey's mean comparison and grouping using fixed effect linear modeling with optional plotting of grouping letters}
 \usage{
 mean_comparison_HSD(formula, data=NULL, explanatory_variable_name, alpha=0.05,
                    LOG=FALSE, BASE=10, PLOT=FALSE)
@@ -10,7 +10,7 @@ mean_comparison_HSD(formula, data=NULL, explanatory_variable_name, alpha=0.05,
 \arguments{
 \item{formula}{R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]}
 
-\item{data}{data.frame containing the response and explantory variables which forms the formula above [default=NULL]}
+\item{data}{data.frame containing the response and explanatory variables which forms the formula above [default=NULL]}
 
 \item{explanatory_variable_name}{string referring to the variable name of the explanatory variable whose class means will be compared [mandatory]}
 
@@ -28,7 +28,7 @@ Tukey's honest significant difference (HSD) grouping table with response variabl
 Appends HSD grouping letters into an existing plot
 }
 \description{
-Tukey's mean comparison and grouping using fixed effect linear modelling with optional plotting of grouping letters
+Tukey's mean comparison and grouping using fixed effect linear modeling with optional plotting of grouping letters
 }
 \examples{
 x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)

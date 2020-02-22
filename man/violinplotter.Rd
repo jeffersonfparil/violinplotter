@@ -23,7 +23,7 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 
 \item{VIOLIN_COLOURS}{vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]}
 
-\item{ERROR_BAR_COLOURS}{vector of colours of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]}
+\item{ERROR_BAR_COLOURS}{vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]}
 
 \item{XCATEGOR}{logical or vector of logicals referring to whether the explanatory variable/s is/are strictly categorical [default=TRUE]}
 

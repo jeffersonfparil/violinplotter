@@ -6,15 +6,15 @@
 #'                BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
 #'                XTICKS=TRUE, LOG=FALSE, BASE=10)
 #'
-#' @param dat ataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
+#' @param dat dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
 #' @param response_variable_name string referring to the variable name of the response variable [mandatory]
 #' @param explanatory_variable_name string referring to the variable name of the explanatory variable [mandatory]
 #' @param title string corresponding to the explanatory term including additive and interaction terms in the formula [default=""]
-#' @param xlab string specifing the x-axis label [default=""]
-#' @param ylab string specifing the y-axis label [default=""]
+#' @param xlab string specifying the x-axis label [default=""]
+#' @param ylab string specifying the y-axis label [default=""]
 #' @param COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
-#' @param BAR_COLOURS vector of colours of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
-#' @param XTICKS logical referring to whether the explanatory variable is strictly categorcial [default=TRUE]
+#' @param BAR_COLOURS vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
+#' @param XTICKS logical referring to whether the explanatory variable is strictly categorical [default=TRUE]
 #' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
 #' @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
 #'

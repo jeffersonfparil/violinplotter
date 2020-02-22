@@ -1,10 +1,10 @@
-#' Tukey's mean comparison and grouping using fixed effect linear modelling with optional plotting of grouping letters
+#' Tukey's mean comparison and grouping using fixed effect linear modeling with optional plotting of grouping letters
 #'
 #' @usage mean_comparison_HSD(formula, data=NULL, explanatory_variable_name, alpha=0.05,
 #'                    LOG=FALSE, BASE=10, PLOT=FALSE)
 #'
 #' @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
-#' @param data data.frame containing the response and explantory variables which forms the formula above [default=NULL]
+#' @param data data.frame containing the response and explanatory variables which forms the formula above [default=NULL]
 #' @param explanatory_variable_name string referring to the variable name of the explanatory variable whose class means will be compared [mandatory]
 #' @param alpha numeric significance level for Tukey's mean comparison [default=0.05]
 #' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]

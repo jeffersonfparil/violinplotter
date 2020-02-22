@@ -1,7 +1,7 @@
 # violinplotter
-## R package for plotting and comparing means with violin plots
+## R Package for Plotting and Comparing Means with Violin Plots
 
-|                                                        **Lab Webiste**                                                        |                                                               **Build Status**                                                                |                                                                              **Documentation**                                                                               |
+|                                                        **Lab Website**                                                        |                                                               **Build Status**                                                                |                                                                              **Documentation**                                                                               |
 |:-----------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | <a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/adaevo_lab_unimelb_2020.png" width="150"></a> | [![Build Status](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)](https://travis-ci.com/jeffersonfparil/violinplotter) | <a href="https://github.com/jeffersonfparil/violinplotter/wiki" target="_blank"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Latest documentation"></a> |
 

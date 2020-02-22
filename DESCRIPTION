@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Jefferson",
            family = "Paril",
            role = c("aut", "cre"),
-           email = c("jparil@student.unimelb.edu.au", "jfparil@up.edu.ph"),
+           email = c("jeffersonparil@gmail.com"),
            comment = c(ORCID = "0000-0002-5693-4123"))
 Description: Just another violin plotter with mean comparison bars and optional HSD grouping and regression line.
 License: GPL-3

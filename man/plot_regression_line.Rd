@@ -8,7 +8,7 @@ plot_regression_line(dat, response_variable_name, explanatory_variable_name,
                      LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray")
 }
 \arguments{
-\item{dat}{ataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]}
+\item{dat}{dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]}
 
 \item{response_variable_name}{string referring to the variable name of the response variable [mandatory]}
 
@@ -20,7 +20,7 @@ plot_regression_line(dat, response_variable_name, explanatory_variable_name,
 
 \item{PLOT}{logical referring to whether to plot the regression line into the existing plot [default=FALSE]}
 
-\item{LINE_COL}{string referring to the color or the gression line [default="gray"]}
+\item{LINE_COL}{string referring to the color or the regression line [default="gray"]}
 }
 \value{
 Linear regression statistics (completely fixed linear model): intercept, slope and coefficient of determination adjusted-R^2
