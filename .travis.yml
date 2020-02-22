@@ -3,4 +3,4 @@ language: r
 warnings_are_errors: false
 
 after_success:
-  - Rscript violinplotter/tests/test1.R
+  - Rscript tests/test1.R
