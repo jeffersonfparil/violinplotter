@@ -1,9 +1,11 @@
 # violinplotter
 ## R package for plotting and comparing means with violin plots
 
-[![Build Status](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)](https://travis-ci.com/jeffersonfparil/violinplotter) [![codecov](https://codecov.io/gh/jeffersonfparil/violinplotter/branch/master/graph/badge.svg)](https://codecov.io/gh/jeffersonfparil/violinplotter)
+|                                                          **Lab Webiste**                                                          |                                                               **Build Status**                                                                |                                                                              **Documentation**                                                                               |
+|:---------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| <a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/Adaptive Evolution Logo mod.png" width="150"></a> | [![Build Status](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)](https://travis-ci.com/jeffersonfparil/violinplotter) | <a href="https://github.com/jeffersonfparil/violinplotter/wiki" target="_blank"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Latest documentation"></a> |
 
-Just another violin plotter with mean comparison bars and optional HSD grouping and regression line.
+Just another violin plotter with mean comparison bars and optional HSD grouping and regression line
 
 ## Usage
 
