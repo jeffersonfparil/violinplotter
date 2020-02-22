@@ -1,6 +1,6 @@
 Package: violinplotter
 Title: R package for plotting and comparing means with violin plots
-Version: 0.0.0.1
+Version: 1.0.0.0
 Authors@R:
     person(given = "Jefferson",
            family = "Paril",
