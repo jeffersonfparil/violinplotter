@@ -6,19 +6,23 @@
 Just another violin plotter with mean comparison bars and optional HSD grouping and regression line.
 
 ## Usage
-```
+
+```r
 violinplotter(dat, response_var, explanatory_var, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=1, HSD=TRUE, REGRESS=FALSE)
 ```
 
 ## Manual
+
 Download the repository:
-shell```
+
+```shell
 wget https://github.com/jeffersonfparil/violinplotter/archive/master.zip
 cd violinplotter/
 ```
 
 Inside the violinplotter/ directory build and install
-r```
+
+```r
 ### build the package into the base directory (one level lower)
 devtools::build()
 ### move to lower directory
@@ -30,7 +34,8 @@ install.packages(build_name)
 ```
 
 ## Examples
-```
+
+```r
 library(violinplotter)
 x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
 x2 = rep(rep(letters[6:10], each=5*5), times=5)
