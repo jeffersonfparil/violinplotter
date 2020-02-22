@@ -4,3 +4,4 @@ warnings_are_errors: false
 
 after_success:
   - Rscript tests/test1.R
+  - Rscript tests/test2.R
