@@ -28,6 +28,7 @@
 #' formula = y ~ x1 + x2 + x3 + (x2:x3)
 #' OUT = violinplotter(formula=formula, data=data)
 
+#' @export
 violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=1, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){
   ### FOR TESTING: load the parsing, plotting, HSD, and regressing functions
   # source("parse_formula.R")
@@ -117,7 +118,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
     } else {HSD_out = NULL}
     if (REGRESSX[i]==TRUE){
       print("======================================================")
-      print(paste0("LiLnear Regressing: ", explanatory_var_names[i]))
+      print(paste0("Linear Regressing: ", explanatory_var_names[i]))
       print("======================================================")
       REGRESS_out = plot_regression_line(dat=df,
                                         response_variable_name=response_var_name,

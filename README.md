@@ -12,13 +12,21 @@ violinplotter(dat, response_var, explanatory_var, title="", xlab="", ylab="", CO
 
 ## Manual
 Download the repository:
-```
+shell```
 wget https://github.com/jeffersonfparil/violinplotter/archive/master.zip
-echo -e "print(.libPaths()[1])" > libpath.r
-YOUR_RLIB_PATH=$(Rscript libpath.r | cut -d' ' -f2)
-R CMD INSTALL -l ${YOUR_RLIB_PATH} violinplotter-master.zip
-# library(violinplotter)
-# ?violinplotter
+cd violinplotter/
+```
+
+Inside the violinplotter/ directory build and install
+r```
+### build the package into the base directory (one level lower)
+devtools::build()
+### move to lower directory
+setwd("..")
+### identify the name of the most recent build
+build_name = system("ls | grep violinplotter_ | tail -n1", intern=TRUE)
+### install
+install.packages(build_name)
 ```
 
 ## Examples

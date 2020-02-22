@@ -26,6 +26,7 @@
 #' DF = parse_formula(formula=formula, data=data)
 #' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
 
+#' @export
 plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=10){
   ### extract the dependent or response or y variable, as well as the independent or explanatory or x variable
   x = eval(parse(text=paste0("dat$`", explanatory_variable_name, "`"))) ### numeric or categorical

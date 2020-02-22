@@ -18,6 +18,7 @@
 #' formula = y ~ x1 + x2 + x3 + (x2:x3)
 #' DF = parse_formula(formula=formula, data=data)
 
+#' @export
 parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
   ### parse the input formula
   response_var = as.character(unlist(as.list(attr(terms(formula), "variables"))[-1]))[1]
