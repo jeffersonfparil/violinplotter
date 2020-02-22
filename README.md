@@ -21,7 +21,7 @@ wget https://github.com/jeffersonfparil/violinplotter/archive/master.zip
 cd violinplotter/
 ```
 
-Inside the *violinplotter/* directory open R, build and install using the zip file:
+Inside the *violinplotter/* directory open R, build and install:
 
 ```r
 ### build the package into the base directory (one level lower)
@@ -29,7 +29,7 @@ devtools::build()
 ### move to lower directory
 setwd("..")
 ### identify the name of the most recent build
-build_name = system("ls | grep violinplotter_ | tail -n1", intern=TRUE)
+build_name = system("ls | grep violinplotter_*.tar.gz | tail -n1", intern=TRUE)
 ### install
 install.packages(build_name)
 ```
