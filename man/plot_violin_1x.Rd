@@ -4,7 +4,11 @@
 \alias{plot_violin_1x}
 \title{One explanatory variable at a time violin plotter}
 \usage{
-plot_violin_1x(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=10)
+plot_violin_1x(dat, response_variable_name, explanatory_variable_name,
+               title="", xlab="", ylab="",
+                   COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
+               BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
+               XTICKS=TRUE, LOG=FALSE, BASE=10)
 }
 \arguments{
 \item{dat}{ataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]}
@@ -39,7 +43,7 @@ One explanatory variable at a time violin plotter
 x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
 x2 = rep(rep(letters[6:10], each=5*5), times=5)
 x3 = rep(letters[11:15], each=5*5*5)
-y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1)) ### x3 is the variable affecting y (see each=5*5*5)
+y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
 data = data.frame(x1, x2, x3, y)
 formula = y ~ x1 + x2 + x3 + (x2:x3)
 DF = parse_formula(formula=formula, data=data)

@@ -4,7 +4,8 @@
 \alias{plot_regression_line}
 \title{Regress the response variable against one explanatory variable}
 \usage{
-plot_regression_line(dat, response_variable_name, explanatory_variable_name, LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray")
+plot_regression_line(dat, response_variable_name, explanatory_variable_name,
+                     LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray")
 }
 \arguments{
 \item{dat}{ataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]}
@@ -31,11 +32,12 @@ Regress the response variable against one explanatory variable
 x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
 x2 = rep(rep(letters[6:10], each=5*5), times=5)
 x3 = rep(letters[11:15], each=5*5*5)
-y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1)) ### x3 is the variable affecting y (see each=5*5*5)
+y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
 data = data.frame(x1, x2, x3, y)
 formula = y ~ x1 + x2 + x3 + (x2:x3)
 DF = parse_formula(formula=formula, data=data)
 plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
 HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
-REGRESS = plot_regression_line(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
+REGRESS = plot_regression_line(dat=DF, response_variable_name="y",
+                               explanatory_variable_name="x3")
 }
