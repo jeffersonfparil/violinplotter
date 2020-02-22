@@ -14,14 +14,14 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("
 
 ## Manual
 
-Download the repository:
+Download the repository [Shell script]:
 
 ```shell
 wget https://github.com/jeffersonfparil/violinplotter/archive/master.zip
 cd violinplotter/
 ```
 
-Inside the violinplotter/ directory build and install
+Inside the violinplotter/ directory build and install [R script]:
 
 ```r
 ### build the package into the base directory (one level lower)
