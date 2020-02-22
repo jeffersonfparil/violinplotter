@@ -1,21 +1,15 @@
 language: r
-cache: packages
-warnings_are_errors: false
 
-r:
-  - oldrel
-  - release
-  - devel
+sudo: required
 
-notifications:
-  email:
-    on_success: change
-    on_failure: change
+env: _R_CHECK_CRAN_INCOMING_=FALSE
 
-# for codecov
 r_packages:
   - covr
+  - devtools
 
-# only report coverage after build is successful
+r_github_packages:
+  - codecov/example-r
+
 after_success:
-  - test $TRAVIS_R_VERSION_STRING = 'release' && Rscript -e 'covr::codecov()'
+  - Rscript -e 'library(covr);codecov()'
