@@ -14,5 +14,4 @@ warnings_are_errors: false
 #   - codecov/example-r
 
 after_success:
-  - Rscript -e 'library(covr);codecov()'
-  - bash <(curl -s https://codecov.io/bash)
+  - echo $(pwd)
