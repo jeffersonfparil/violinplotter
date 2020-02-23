@@ -54,6 +54,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   if (LOG==TRUE){
     df$x_numeric=log(df$x_numeric, base=BASE)
     df$x_categorical=as.factor(round(df$x_numeric, 2))
+    xlab = paste0("log", BASE, "(", xlab, ")")
   }
   ### extract the levels and unique values of the x variable
   x_levels = levels(df$x_categorical)

@@ -46,16 +46,17 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   }
   ### computate the means per explanatory variable level
   means = eval(parse(text=paste0("aggregate(",  response_var_name, "~ `", explanatory_variable_name, "`, data=df, FUN=mean)")))
-  means = means[order(means[,2], decreasing=TRUE), ]
+  colnames(means) = c("LEVELS", "MEANS")
+  means = means[order(means$MEANS, decreasing=TRUE), ]
   ### compute the HSD pairwise comparison
   hsd = eval(parse(text=paste0("as.data.frame(TukeyHSD(mod, conf.level=", 1.00-alpha, ")$`", explanatory_variable_name, "`)")))
   ### add "LEVEL_" string to allow for explanatory variable that are originally numeric to be easily set as list names
   factor_labels = matrix(paste0("LEVEL_", unlist(strsplit(rownames(hsd), "-"))), ncol=2, byrow=TRUE)
   hsd$factor1 = factor_labels[,1]
   hsd$factor2 = factor_labels[,2]
-  factors_all = paste0("LEVEL_", as.character(means[,1]))
+  factors_all = paste0("LEVEL_", as.character(means$LEVELS))
   ### initialize the list of HSD grouping of each response variable level
-  GROUPING_LIST = eval(parse(text=paste0("list('LEVEL_", paste(as.character(means$x), collapse="'=c(), 'LEVEL_"), "'=c())")))
+  GROUPING_LIST = eval(parse(text=paste0("list('LEVEL_", paste(as.character(means$LEVELS), collapse="'=c(), 'LEVEL_"), "'=c())")))
   ### generate the vector of letters and numbers for grouping
   letters_vector = c(letters, LETTERS, 1:(nrow(hsd)^2))
   ### iterate across response variable level
@@ -75,9 +76,12 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
       # g = nonsigfactors[1]
       f_letters = eval(parse(text=paste0("GROUPING_LIST$`", f, "`"))) ### currect factor grouping
       g_letters = eval(parse(text=paste0("GROUPING_LIST$`", g, "`"))) ### grouping of the non-siginificantly different factor level
-      ### test if the current factor level is the same as the non-siginificantly different factor level or if we are at the start
-      # if (paste(f_letters, collapse="") != paste(g_letters, collapse="") | is.null(f_letters)){
-      if ( !((sum(f_letters %in% g_letters)>0) | (sum(g_letters %in% f_letters)>0)) | is.null(f_letters) ) {
+      ### if we have all significantly different means at the start
+      if (is.na(g)){
+        eval(parse(text=paste0("GROUPING_LIST$`", f, "` = c(", "GROUPING_LIST$`", g, "`, '", letter_add, "')")))
+        new_letter_bool = new_letter_bool + 1
+      } else if ( !((sum(f_letters %in% g_letters)>0) | (sum(g_letters %in% f_letters)>0)) | is.null(f_letters) ) {
+        ### test if the current factor level is the same as the non-siginificantly different factor level or if we are at the start
         eval(parse(text=paste0("GROUPING_LIST$`", g, "` = c(", "GROUPING_LIST$`", g, "`, '", letter_add, "')")))
         new_letter_bool = new_letter_bool + 1
       }
@@ -91,17 +95,19 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   ### prepare the grouping list
   GROUPING_LIST = as.matrix(lapply(GROUPING_LIST, FUN=paste, collapse=""))
   GROUPING_LIST = data.frame(LEVELS=gsub("LEVEL_", "", as.character(rownames(GROUPING_LIST))), GROUPING=as.character(GROUPING_LIST[,1]))
+  ### prepare the explanatory variable names and corresponding numbers
+  x_levels = eval(parse(text=paste0("levels(as.factor(df$`", explanatory_variable_name, "`))")))
+  x_numbers = tryCatch(as.numeric(as.character(x_levels)),
+                  warning=function(e){as.numeric(as.factor(x_levels))})
   if (LOG==TRUE){
     ### transform the level names into the corresponding level names we used previously (x_levels and x_numbers) because we will be merging dataframes below
     GROUPING_LIST$LEVELS = as.factor(round(log(as.numeric(as.character(GROUPING_LIST$LEVELS)), base=BASE), 2))
+    x_numbers = log(x_numbers, base=BASE)
+    x_levels = as.character(round(x_numbers, 2))
+    means$LEVELS = as.factor(round(log(as.numeric(as.character(means$LEVELS)), base=BASE), 2))
   }
-  ### prepare the explanatory variable names and corresponding numbers
-  x_levels = eval(parse(text=paste0("levels(as.factor(df$`", explanatory_variable_name, "`))")))
-  x_numbers = tryCatch(eval(parse(text=paste0("as.numeric(as.character(df$`", explanatory_variable_name, "`))"))),
-                  warning=function(e){as.numeric(as.factor(x_levels))})
   X_LEVELS_AND_NUMBERS = data.frame(LEVELS=x_levels, NUMBERS=x_numbers)
   ### merge and append the grouping letters together with the means
-  colnames(means) = c("LEVELS", "MEANS")
   MERGE_GROUPING_DF = merge(merge(GROUPING_LIST, X_LEVELS_AND_NUMBERS, by="LEVELS"), means, by="LEVELS")
   if(PLOT){
     text(x=MERGE_GROUPING_DF$NUMBERS, y=max(response_var)+sd(response_var), lab=as.character(MERGE_GROUPING_DF$GROUPING))
