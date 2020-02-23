@@ -44,7 +44,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   # source("plot_regression_line.R")
 
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
-  df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)
+  # df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)
   response_var = df[,1]
   explanatory_var = df[,2:ncol(df)]
   response_var_name = colnames(df)[1]
