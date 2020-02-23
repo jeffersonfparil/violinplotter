@@ -19,9 +19,9 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("
 We are currently working on getting this package available in the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/) for ease of installation and greater visibility. But for now please follow the installation instructions below.
 
 ```r
-### install the **remotes** package to install R packages from github repositories
+### install the "remotes" package to install R packages from github repositories
 install.packages("remotes")
-### install **violinplott**
+### install "violinplotter" (this command also performs package update)
 remotes::install_github("jeffersonfparil/violinplotter")
 ```
 
