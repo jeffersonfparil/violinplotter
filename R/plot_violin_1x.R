@@ -117,12 +117,15 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
     poly_x = c(x_numbers[i]-rev(d$y*max_x_interval), x_numbers[i]+(d$y*max_x_interval))
     ### define the y-axis points of the polygon defined as the range of values of the response variable (df$y)
     poly_y = c(rev(d$x), d$x)
-    ### draw the polygon
-    polygon(x=poly_x, y=poly_y, border=NA, col=COLOURS[i])
-    ### plot the summary statistics
-    arrows(x0=x_numbers[i], y0=mu+sigma, y1=mu-sigma, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[1])
-    arrows(x0=x_numbers[i], y0=mu+se, y1=mu-se, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[2])
-    arrows(x0=x_numbers[i], y0=mu+ci, y1=mu-ci, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[3])
+    ### draw violin polygon and reeor bars when the variance is greater than 0
+    if (sigma > 0){
+      ### draw the polygon
+      polygon(x=poly_x, y=poly_y, border=NA, col=COLOURS[i])
+      ### plot the summary statistics
+      arrows(x0=x_numbers[i], y0=mu+sigma, y1=mu-sigma, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[1])
+      arrows(x0=x_numbers[i], y0=mu+se, y1=mu-se, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[2])
+      arrows(x0=x_numbers[i], y0=mu+ci, y1=mu-ci, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[3])
+    }
     points(x=x_numbers[i], y=mu, pch=20)
     # print(x_levels[i])
     # print(mean(subdat$y))
