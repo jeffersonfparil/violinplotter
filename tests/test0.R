@@ -1,8 +1,8 @@
-system("wget https://github.com/jeffersonfparil/violinplotter/archive/master.zip")
-system("unzip master.zip")
-setwd("violinplotter-master")
-devtools::build()
-setwd("..")
-build_name = system("ls | grep violinplotter_*.tar.gz | tail -n1", intern=TRUE)
-install.packages(build_name)
-library(violinplotter)
+tryCatch(
+  {
+    remotes::install_github("jeffersonfparil/violinplotter")
+    library(violinplotter)
+  }, error=function(e){
+    library(violinplotter)
+  }
+)

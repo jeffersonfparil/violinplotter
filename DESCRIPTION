@@ -13,4 +13,4 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
 Imports:
-  devtools
+  remotes

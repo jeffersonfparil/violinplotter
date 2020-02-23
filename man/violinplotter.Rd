@@ -5,10 +5,10 @@
 \title{Violin plotter with mean comparison bars and optional HSD grouping and regression line}
 \usage{
 violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
-                  VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
-              ERROR_BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
-              XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=1, HSDX=TRUE,
-              ALPHA=0.05, REGRESSX=FALSE)
+ VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
+ ERROR_BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
+ XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=1, HSDX=TRUE,
+ ALPHA=0.05, REGRESSX=FALSE)
 }
 \arguments{
 \item{formula}{R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]}
@@ -53,4 +53,5 @@ y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
 data = data.frame(x1, x2, x3, y)
 formula = y ~ x1 + x2 + x3 + (x2:x3)
 OUT = violinplotter(formula=formula, data=data)
+
 }

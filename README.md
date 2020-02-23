@@ -5,7 +5,7 @@
 |:-----------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | <a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/adaevo_lab_unimelb_2020.png" width="150"></a> | [![Build Status](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)](https://travis-ci.com/jeffersonfparil/violinplotter) | <a href="https://github.com/jeffersonfparil/violinplotter/wiki" target="_blank"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Latest documentation"></a> |
 
-Just another violin plotter with mean comparison bars and optional HSD grouping and regression line
+Just another violin plotter with mean comparison bars and optional Tukey's honest significant difference grouping and/or regression line
 
 ## Usage
 
@@ -18,19 +18,11 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("
 
 We are currently working on getting this package available in the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/) for ease of installation and greater visibility. But for now please follow the installation instructions below.
 
-[Download the repository as a zip file](https://github.com/jeffersonfparil/violinplotter/archive/master.zip).
-Unzip, and navigate inside the *violinplotter-master/* directory.
-Open R (inside the *violinplotter-master/* directory), build and install via:
-
 ```r
-### build the package into the base directory (one level lower)
-devtools::build()
-### move to lower directory
-setwd("..")
-### identify the name of the most recent build
-build_name = system("ls | grep violinplotter_*.tar.gz | tail -n1", intern=TRUE)
-### install
-install.packages(build_name)
+### install the **remotes** package to install R packages from github repositories
+install.packages("remotes")
+### install **violinplott**
+remotes::install_github("jeffersonfparil/violinplotter")
 ```
 
 ## Examples
