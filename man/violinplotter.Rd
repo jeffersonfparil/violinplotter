@@ -2,7 +2,7 @@
 % Please edit documentation in R/violinplotter.R
 \name{violinplotter}
 \alias{violinplotter}
-\title{Violin plotter with mean comparison bars and optional HSD grouping and regression line}
+\title{R Package for Plotting and Comparing Means with Violin Plots}
 \usage{
 violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
  VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
@@ -43,7 +43,7 @@ Violin plot/s with optional error bars, mean comparison grouping/s, and regressi
 Mean comparison grouping/s based on Tukey's Hones significant difference and regression line statistics, if applicable
 }
 \description{
-Violin plotter with mean comparison bars and optional HSD grouping and regression line
+R Package for Plotting and Comparing Means with Violin Plots
 }
 \examples{
 x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)

@@ -1,5 +1,4 @@
 library(violinplotter)
-data(dummy_data)
 str(dummy_data)
 OUT_1 = violinplotter(formula = RESPONSE_1 ~ STRATUM*TREATMENT, data=dummy_data)
 OUT_2 = violinplotter(formula = RESPONSE_1 ~ STRATUM*TREATMENT, data=dummy_data)

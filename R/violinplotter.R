@@ -1,4 +1,4 @@
-#' Violin plotter with mean comparison bars and optional HSD grouping and regression line
+#' R Package for Plotting and Comparing Means with Violin Plots
 #'
 #' @usage violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 #'  VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),

@@ -20,12 +20,12 @@ mean_comparison_HSD(formula, data=NULL, explanatory_variable_name, alpha=0.05,
 
 \item{BASE}{numeric referring to the logarithm base to transform the explanatory variable with [default=1]}
 
-\item{PLOT}{logical referring to whether plot the HSD mean comparison grouping into an existing plot [default=FALSE]}
+\item{PLOT}{logical referring to whether plot the mean comparison grouping letters into an existing plot [default=FALSE]}
 }
 \value{
-Tukey's honest significant difference (HSD) grouping table with response variable categorical means, grouping, level names and corresponding numeric counterparts
+Tukey's honest significant difference grouping table with response variable categorical means, grouping, level names and corresponding numeric counterparts
 
-Appends HSD grouping letters into an existing plot
+Appends honest significant difference grouping letters into an existing plot
 }
 \description{
 Tukey's mean comparison and grouping using fixed effect linear modeling with optional plotting of grouping letters
