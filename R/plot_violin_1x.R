@@ -78,7 +78,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   ### define las: i.e. the orientation of the x-axis tick labels
   ### as well as the plot margins and the x-axis label
   max_nchar = max(unlist(lapply(x_levels, FUN=nchar)))
-  if (max_nchar > 10){
+  if (max_nchar > 7){
     las = 2
     par(mar=c(max_nchar*0.70, 5, 7, 2))
     xlab=""
@@ -133,7 +133,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   ### plot grid lines
   grid()
   ### show the summary statistics legend
-  legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS), cex=0.75, lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", "95% Confidence Interval"))
+  legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS), cex=(par(no.readonly=TRUE)$cex*0.75), lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", "95% Confidence Interval"))
   ### return the levels and unique values of the x variable
   return(0)
 }

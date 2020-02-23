@@ -57,7 +57,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   if ( (XLAB=="") | (length(XLAB) != ncol(df)-1) ){
     XLAB = explanatory_var_names
   }
-  if ( (TITLE=="") | (length(TITLE) != ncol(df)-1) ){
+  if ( (sum(TITLE==rep("", times=length(TITLE)))==length(TITLE)) | (length(TITLE) != ncol(df)-1) ){
     TITLE = paste0(YLAB, "\nX\n", XLAB)
   }
 
