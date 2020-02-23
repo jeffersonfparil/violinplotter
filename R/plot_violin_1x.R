@@ -44,7 +44,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   ### while converting the x variable into both categorical and numeric variables
   x_categorical = NA
   df = tryCatch(
-          data.frame(y=y, x_categorical=as.factor(as.character(x)), x_numeric=as.numeric(as.character(x))),
+          data.frame(y=y, x_categorical=as.factor(as.character(x)), x_numeric=as.numeric(gsub("_", "-", as.character(x)))),
           warning=function(e){
             data.frame(y=y, x_categorical=as.factor(as.character(x)), x_numeric=as.numeric(x))
           }
@@ -53,7 +53,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   ### transform the x axis into log-scale for ease of viewing
   if (LOG==TRUE){
     df$x_numeric=log(df$x_numeric, base=BASE)
-    df$x_categorical=as.factor(round(df$x_numeric, 2))
+    df$x_categorical=as.factor(round(df$x_numeric, 3))
     xlab = paste0("log", BASE, "(", xlab, ")")
   }
   ### extract the levels and unique values of the x variable
