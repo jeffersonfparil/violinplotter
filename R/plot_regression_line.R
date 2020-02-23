@@ -32,7 +32,7 @@
 #' @export
 plot_regression_line = function(dat, response_variable_name, explanatory_variable_name, LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray"){
   x_levels = eval(parse(text=paste0("levels(as.factor(dat$`", explanatory_variable_name, "`))")))
-  x_numbers = tryCatch(as.numeric(as.character(x_levels)),
+  x_numbers = tryCatch(as.numeric(gsub("_", "-", as.character(x_levels))),
                   warning=function(e){as.numeric(as.factor(x_levels))})
   eval(parse(text=paste0("levels(dat$`", explanatory_variable_name, "`) = x_numbers")))
   x = eval(parse(text=paste0("as.numeric(as.character(dat$`", explanatory_variable_name, "`))")))
@@ -48,6 +48,6 @@ plot_regression_line = function(dat, response_variable_name, explanatory_variabl
   x_new = seq(from=min(x)-sd(x), to=max(x)+sd(x), length.out=100)
   y_pred = mod$coefficients[1] + (mod$coefficients[2] * x_new)
   lines(x=x_new, y=y_pred, lty=2, lwd=2, col=LINE_COL)
-  legend("bottomright", legend=paste0(c("y-intercept=", "slope=", "R2_adjusted="), round(regress_out,2)), cex=0.75)
+  legend("bottomright", legend=paste0(c("y-intercept=", "slope=", "R2_adjusted="), round(regress_out,3)), cex=0.75)
   return(regress_out)
 }
