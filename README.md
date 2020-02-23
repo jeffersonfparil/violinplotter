@@ -5,7 +5,7 @@
 |:-----------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|
 | <a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/adaevo_lab_unimelb_2020.png" width="150"></a> | [![Build Status](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)](https://travis-ci.com/jeffersonfparil/violinplotter) | <a href="https://github.com/jeffersonfparil/violinplotter/wiki" target="_blank"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Latest documentation"></a> | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 
-Just another violin plotter with mean comparison bars and optional Tukey's honest significant difference grouping and/or regression line
+Just another violin plotter with mean comparison bars and optional Tukey's honest significant difference grouping and/or regression line.
 
 ## Usage
 
