@@ -1,7 +1,4 @@
 # violinplotter
-
- <a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/dummy_data_out.png" width="1200"></a>
-
 ## R Package for Plotting and Comparing Means with Violin Plots
 
 |                                                        **Lab Website**                                                        |                                                               **Build Status**                                                                |                                                                              **Documentation**                                                                               |                                                   **License**                                                   |
@@ -50,3 +47,4 @@ str(dummy_data)
 OUT_1 = violinplotter(formula = RESPONSE_1 ~ STRATUM*TREATMENT, data=dummy_data, REGRESSX=c(TRUE, FALSE, FALSE), HSD=c(TRUE, TRUE, FALSE))
 OUT_2 = violinplotter(formula = RESPONSE_2 ~ STRATUM*TREATMENT, data=dummy_data)
 ```
+<a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/dummy_data_out.png" width="1200"></a>
