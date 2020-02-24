@@ -49,4 +49,4 @@ OUT_2 = violinplotter(formula = RESPONSE_2 ~ STRATUM*TREATMENT, data=dummy_data)
 ```
 Sample output figure:
 
-<a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/dummy_data_out.png" width="1200"></a>
+<img src="misc/dummy_data_out.png" width="1200"></a>
