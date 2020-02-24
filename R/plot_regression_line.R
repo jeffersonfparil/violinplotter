@@ -38,7 +38,11 @@ plot_regression_line = function(dat, response_variable_name, explanatory_variabl
   x = eval(parse(text=paste0("as.numeric(as.character(dat$`", explanatory_variable_name, "`))")))
   y = eval(parse(text=paste0("dat$`", response_variable_name, "`")))
   if (LOG==TRUE){
-    x = log(x, base=BASE)
+    if (sum(is.na(log(x, base=BASE)))==0){
+      x = log(x, base=BASE)
+    } else {
+      x = log(x+abs(min(x))+1, base=BASE)
+    }
   }
   mod = lm(y ~ x)
   b0 = mod$coefficients[1]
