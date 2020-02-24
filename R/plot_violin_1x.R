@@ -36,34 +36,40 @@
 #' @export
 plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=10){
   ### extract the dependent or response or y variable, as well as the independent or explanatory or x variable
-  x = eval(parse(text=paste0("dat$`", explanatory_variable_name, "`"))) ### numeric or categorical
-  x = as.factor(gsub("-", "", x)) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
+  x = as.character(eval(parse(text=paste0("dat$`", explanatory_variable_name, "`")))) ### numeric and categorical both treated as categorical
+  # x = as.factor(gsub("-", "_", x)) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
   y = eval(parse(text=paste0("dat$`", response_variable_name, "`")))    ### numeric
   # y = rnorm(length(y)) ### null test
   ### merge them into a data frame for ease of handling
   ### while converting the x variable into both categorical and numeric variables
-  x_categorical = NA
-  df = tryCatch(
-          data.frame(y=y, x_categorical=as.factor(as.character(x)), x_numeric=as.numeric(gsub("_", "-", as.character(x)))),
-          warning=function(e){
-            data.frame(y=y, x_categorical=as.factor(as.character(x)), x_numeric=as.numeric(x))
-          }
-        )
-  df = df[complete.cases(df), ]
+  # x_categorical = NA
+  x_numeric = tryCatch(
+    as.numeric(gsub("_", "-", x)),
+    warning=function(e){
+      as.numeric(as.factor(gsub("_", "-", x)))
+    }
+  )
+  df = data.frame(y=y, x_categorical=as.factor(round(x_numeric,3)), x_numeric=x_numeric) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
+  df = droplevels(df[complete.cases(df), ])
+  df$y = as.numeric(y)
+  df$x_categorical = as.factor(df$x_categorical)
+  df$x_numeric = as.numeric(df$x_numeric)
   ### transform the x axis into log-scale for ease of viewing
   if (LOG==TRUE){
-    df$x_numeric=log(df$x_numeric, base=BASE)
-    df$x_categorical=as.factor(round(df$x_numeric, 3))
-    xlab = paste0("log", BASE, "(", xlab, ")")
+    if(sum(is.na(log(df$x_numeric, base=BASE)), na.rm=T) == 0){
+      df$x_numeric=log(df$x_numeric, base=BASE)
+      df$x_categorical=as.factor(round(df$x_numeric, 3))
+      xlab = paste0("log", BASE, "(", xlab, ")")
+    } else {
+      df$x_numeric=log(df$x_numeric+abs(min(df$x_numeric))+1, base=BASE)
+      df$x_categorical=as.factor(round(df$x_numeric, 3))
+      xlab = paste0("log", BASE, "(", xlab, "+", round(min(df$x_numeric)+1, 3), ")")
+    }
   }
   ### extract the levels and unique values of the x variable
   x_levels = levels(df$x_categorical)
-  x_numbers = tryCatch(
-                as.numeric(as.character(x_levels)),
-                warning=function(e){
-                  as.numeric(as.factor(x_levels))
-                }
-              )
+  x_numbers = as.numeric(as.character(x_levels))
+
   ### calculate the summary statistics of the x and y vairables
   x_min = min(df$x_numeric)
   x_max = max(df$x_numeric)
