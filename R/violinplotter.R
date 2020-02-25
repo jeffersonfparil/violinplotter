@@ -86,17 +86,14 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
     REGRESSX = rep(REGRESSX, times=ncol(df)-1)
   }
 
-  ### define the layout of the plot space
-  MFROW = c(1)
-  for (i in 2:length(explanatory_var_names)){
-    if ( (length(explanatory_var_names) %% i)==0 ){
-      MFROW = c(MFROW, i)
-    }
-  }
-
   ### iterate across explanatory variables defined by the formula
   OUT = list()
-  par(mfrow=MFROW[c(ceiling(length(MFROW)/2), (floor(length(MFROW)/2)+1))])
+  if (length(explanatory_var_names) > 1){
+    ### define layout if we have more than one explanatory variable
+    ### otherwise don't set the layout so the user can define their own layout and print multiple plots
+    m = length(explanatory_var_names)
+    par(mfrow=c(round(sqrt(m)), (floor(sqrt(m)) + ceiling(sqrt(m) %% floor(sqrt(m))))))
+  }
   for (i in 1:length(explanatory_var_names)){
     # i = 4
     print("======================================================")
