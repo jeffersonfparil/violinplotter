@@ -102,16 +102,9 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   if (LOG==TRUE){
     ### transform the level names into the corresponding level names we used previously (x_levels and x_numbers) because we will be merging dataframes below
     if(sum(is.na(log(x_numbers, base=BASE))) == 0){
-      GROUPING_LIST$LEVELS = as.factor(round(log(as.numeric(gsub("_", "-", as.character(GROUPING_LIST$LEVELS))), base=BASE), 3))
       x_numbers = log(x_numbers, base=BASE)
-      x_levels = as.character(round(x_numbers, 3))
-      means$LEVELS = as.factor(round(log(as.numeric(gsub("_", "-", as.character(means$LEVELS))), base=BASE), 3))
     } else {
-      add_me = abs(min(x_numbers)) + 1
-      GROUPING_LIST$LEVELS = as.factor(round(log(as.numeric(gsub("_", "-", as.character(GROUPING_LIST$LEVELS)))+add_me, base=BASE), 3))
-      x_numbers = log(x_numbers+add_me, base=BASE)
-      x_levels = as.character(round(x_numbers, 3))
-      means$LEVELS = as.factor(round(log(as.numeric(gsub("_", "-", as.character(means$LEVELS)))+add_me, base=BASE), 3))
+      x_numbers = log(x_numbers + (abs(min(x_numbers)) + 1), base=BASE)
     }
   }
   X_LEVELS_AND_NUMBERS = data.frame(LEVELS=x_levels, NUMBERS=x_numbers)

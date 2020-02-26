@@ -14,6 +14,7 @@
 #' @param ylab string specifying the y-axis label [default=""]
 #' @param COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
 #' @param BAR_COLOURS vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
+#' @param CI numeric referring to the percent confidence interval [default=95]
 #' @param XTICKS logical referring to whether the explanatory variable is strictly categorical [default=TRUE]
 #' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
 #' @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
@@ -34,7 +35,7 @@
 #' @importFrom graphics par plot axis polygon arrows points grid par
 #'
 #' @export
-plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XTICKS=TRUE, LOG=FALSE, BASE=10){
+plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10){
   ### extract the dependent or response or y variable, as well as the independent or explanatory or x variable
   x = as.character(eval(parse(text=paste0("dat$`", explanatory_variable_name, "`")))) ### numeric and categorical both treated as categorical
   # x = as.factor(gsub("-", "_", x)) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
@@ -49,26 +50,37 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
       as.numeric(as.factor(gsub("_", "-", x)))
     }
   )
-  df = data.frame(y=y, x_categorical=as.factor(round(x_numeric,3)), x_numeric=x_numeric) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
-  df = droplevels(df[complete.cases(df), ])
-  df$y = as.numeric(y)
-  df$x_categorical = as.factor(df$x_categorical)
-  df$x_numeric = as.numeric(df$x_numeric)
-  ### transform the x axis into log-scale for ease of viewing
-  if (LOG==TRUE){
-    if(sum(is.na(log(df$x_numeric, base=BASE)), na.rm=T) == 0){
-      df$x_numeric=log(df$x_numeric, base=BASE)
-      df$x_categorical=as.factor(round(df$x_numeric, 3))
-      xlab = paste0("log", BASE, "(", xlab, ")")
-    } else {
-      df$x_numeric=log(df$x_numeric+abs(min(df$x_numeric))+1, base=BASE)
-      df$x_categorical=as.factor(round(df$x_numeric, 3))
-      xlab = paste0("log", BASE, "(", xlab, "+", round(min(df$x_numeric)+1, 3), ")")
+  if (XTICKS==FALSE){
+    ### for numeric explanatory variable
+    df = data.frame(y=y, x_categorical=as.factor(round(x_numeric,3)), x_numeric=x_numeric) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
+    df = droplevels(df[complete.cases(df), ])
+    df$y = as.numeric(y)
+    df$x_categorical = as.factor(df$x_categorical)
+    df$x_numeric = as.numeric(df$x_numeric)
+    ### transform the x axis into log-scale for ease of viewing
+    if (LOG==TRUE){
+      if(sum(is.na(log(df$x_numeric, base=BASE)), na.rm=T) == 0){
+        df$x_numeric=log(df$x_numeric, base=BASE)
+        df$x_categorical=as.factor(round(df$x_numeric, 3))
+        xlab = paste0("log", BASE, "(", xlab, ")")
+      } else {
+        df$x_numeric=log(df$x_numeric+abs(min(df$x_numeric))+1, base=BASE)
+        df$x_categorical=as.factor(round(df$x_numeric, 3))
+        xlab = paste0("log", BASE, "(", xlab, "+", round(min(df$x_numeric)+1, 3), ")")
+      }
     }
+  } else {
+    ### for strictly categorical explanatory variable
+    df = data.frame(y=y, x_categorical=x, x_numeric=x_numeric)
+    df = droplevels(df[complete.cases(df), ])
+    df$y = as.numeric(y)
+    df$x_categorical = as.factor(df$x_categorical)
+    df$x_numeric = as.numeric(df$x_numeric)
   }
   ### extract the levels and unique values of the x variable
-  x_levels = levels(df$x_categorical)
-  x_numbers = as.numeric(as.character(x_levels))
+  x_LEVELS_AND_NUMBERS = aggregate(x_numeric ~ x_categorical, data=df, FUN=mean)
+  x_levels = as.character(x_LEVELS_AND_NUMBERS[,1])
+  x_numbers = as.numeric(x_LEVELS_AND_NUMBERS[,2])
 
   ### calculate the summary statistics of the x and y vairables
   x_min = min(df$x_numeric)
@@ -109,7 +121,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
     mu = mean(subdat$y)
     sigma = sd(subdat$y)
     se = sd(subdat$y)/sqrt(nrow(subdat)-1)
-    ci = qnorm(((0.95)/2)+0.50) * se
+    ci = qnorm(((CI/100)/2)+0.50) * se
     ### calculate the density with binning adjustment proportional the number of observations divded by 1x10^5
     d = density(subdat$y, adjust=max(c(1, nrow(subdat)/1e5)))
     ### restrict the range of the response variable to the input dataframe
@@ -139,7 +151,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   ### plot grid lines
   grid()
   ### show the summary statistics legend
-  legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS), cex=(par(no.readonly=TRUE)$cex*0.75), lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", "95% Confidence Interval"))
+  legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS), cex=(par(no.readonly=TRUE)$cex*0.75), lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", paste0(CI, "% Confidence Interval")))
   ### return the levels and unique values of the x variable
   return(0)
 }
