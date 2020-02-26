@@ -44,6 +44,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   # source("plot_regression_line.R")
   # TITLE=""; XLAB=""; YLAB=""; VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"); ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
   # XCATEGOR=FALSE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=TRUE
+  # XCATEGOR=TRUE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=FALSE
 
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
   df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)
@@ -107,6 +108,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                           ylab=YLAB,
                                           COLOURS=VIOLIN_COLOURS,
                                           BAR_COLOURS=ERROR_BAR_COLOURS,
+                                          CI=(1-ALPHA)*100,
                                           XTICKS=XCATEGOR[i],
                                           LOG=LOGX[i],
                                           BASE=LOGX_BASE[i])
