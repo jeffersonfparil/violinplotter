@@ -17,6 +17,8 @@ parse_formula(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean)
 }
 \value{
 Dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns
+
+All explanarory variables are converted inro categorical variables
 }
 \description{
 Parse an R formula to generate a dataframe where the response and explanatory variables including interaction terms are explicitly written into columns

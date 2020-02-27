@@ -4,7 +4,7 @@
 #'                title="", xlab="", ylab="",
 #'                    COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
 #'                BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
-#'                XTICKS=TRUE, LOG=FALSE, BASE=10)
+#'                CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10)
 #'
 #' @param dat dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
 #' @param response_variable_name string referring to the variable name of the response variable [mandatory]
@@ -31,7 +31,7 @@
 #' DF = parse_formula(formula=formula, data=data)
 #' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
 #'
-#' @importFrom stats qnorm density
+#' @importFrom stats qnorm density aggregate
 #' @importFrom graphics par plot axis polygon arrows points grid par
 #'
 #' @export
@@ -43,7 +43,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   # y = rnorm(length(y)) ### null test
   ### merge them into a data frame for ease of handling
   ### while converting the x variable into both categorical and numeric variables
-  # x_categorical = NA
+  x_categorical = NA ### to prevent devtools error: Undefined global functions or variables: x_categorical
   x_numeric = tryCatch(
     as.numeric(gsub("_", "-", x)),
     warning=function(e){
