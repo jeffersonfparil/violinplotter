@@ -3,7 +3,7 @@
 #' @usage violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 #'  VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
 #'  ERROR_BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
-#'  XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=1, HSDX=TRUE,
+#'  XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE,
 #'  ALPHA=0.05, REGRESSX=FALSE)
 #'
 #' @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
@@ -11,7 +11,7 @@
 #' @param TITLE string or vector of strings corresponding to violin plot title/s [default: combinations of the "response variable name X explanatory variable" from the dataframe column names]
 #' @param XLAB string or vector of strings specifying the x-axis labels [default: column names of the explanatory variables (and their combinations) from data]
 #' @param YLAB string or vector of strings specifying the y-axis labels [default: column names of the response variable from data]
-#' @param VIOLIN_COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
+#' @param VIOLIN_COLOURS vector or list of vectors of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels or less than the number of explanatory factors in the case of a list [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
 #' @param ERROR_BAR_COLOURS vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
 #' @param XCATEGOR logical or vector of logicals referring to whether the explanatory variable/s is/are strictly categorical [default=TRUE]
 #' @param LOGX logical or vector of logicals referring to whether to transform the explanatory variable/s into the logarithm scale [default=FALSE]
@@ -64,6 +64,13 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
     TITLE = paste0(YLAB, "\nX\n", XLAB)
   }
 
+  ### What are the violin plot colours we're using for each explanatory variable?
+  if (is.list(VIOLIN_COLOURS)==FALSE) {
+    VIOLIN_COLOURS = rep(list(VIOLIN_COLOURS), times=length(explanatory_var_names))
+  } else if (length(VIOLIN_COLOURS) < length(explanatory_var_names)){
+    VIOLIN_COLOURS = rep(VIOLIN_COLOURS, times=(length(explanatory_var_names)-length(VIOLIN_COLOURS)+1))
+  }
+
   ### Do we have to transform the explanatory variable/s into the log space?
   if (length(LOGX) != ncol(df)-1) {
     LOGX = rep(LOGX, times=ncol(df)-1)
@@ -106,7 +113,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                           title=TITLE[i],
                                           xlab=XLAB[i],
                                           ylab=YLAB,
-                                          COLOURS=VIOLIN_COLOURS,
+                                          COLOURS=VIOLIN_COLOURS[[i]],
                                           BAR_COLOURS=ERROR_BAR_COLOURS,
                                           CI=(1-ALPHA)*100,
                                           XTICKS=XCATEGOR[i],
