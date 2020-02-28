@@ -101,7 +101,7 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
                   warning=function(e){as.numeric(as.factor(x_levels))})
   if (LOG==TRUE){
     ### transform the level names into the corresponding level names we used previously (x_levels and x_numbers) because we will be merging dataframes below
-    if(sum(is.na(log(x_numbers, base=BASE))) == 0){
+    if(sum(is.na(suppressWarnings(log(x_numbers, base=BASE)))) == 0){
       x_numbers = log(x_numbers, base=BASE)
     } else {
       x_numbers = log(x_numbers + (abs(min(x_numbers)) + 1), base=BASE)
