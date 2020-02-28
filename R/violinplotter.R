@@ -83,6 +83,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   if (length(XCATEGOR) != ncol(df)-1) {
     XCATEGOR = rep(XCATEGOR, times=ncol(df)-1)
   }
+  XCATEGOR[LOGX] = FALSE ### automatically convert factors into non-strictly categorcialy if they were set to be log-transformed!
 
   ### Do we have to perform Tukey's hones significant difference test across the explanatory variable/s?
   if (length(HSDX) != ncol(df)-1) {

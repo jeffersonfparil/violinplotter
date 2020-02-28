@@ -52,22 +52,25 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   )
   if (XTICKS==FALSE){
     ### for numeric explanatory variable
-    df = data.frame(y=y, x_categorical=as.factor(round(x_numeric,3)), x_numeric=x_numeric) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
+    df = data.frame(y=y, x_categorical=as.factor(x_numeric), x_numeric=x_numeric) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
     df = droplevels(df[complete.cases(df), ])
     df$y = as.numeric(y)
-    df$x_categorical = as.factor(df$x_categorical)
     df$x_numeric = as.numeric(df$x_numeric)
     ### transform the x axis into log-scale for ease of viewing
     if (LOG==TRUE){
-      if(sum(is.na(log(df$x_numeric, base=BASE)), na.rm=T) == 0){
+      if(sum(is.na(suppressWarnings(log(df$x_numeric, base=BASE))), na.rm=T) == 0){
         df$x_numeric=log(df$x_numeric, base=BASE)
-        df$x_categorical=as.factor(round(df$x_numeric, 3))
         xlab = paste0("log", BASE, "(", xlab, ")")
       } else {
         df$x_numeric=log(df$x_numeric+abs(min(df$x_numeric))+1, base=BASE)
-        df$x_categorical=as.factor(round(df$x_numeric, 3))
         xlab = paste0("log", BASE, "(", xlab, "+", round(min(df$x_numeric)+1, 3), ")")
       }
+    }
+    ### convert numeric factors into categories
+    if (length(unique(round(df$x_numeric, 4))) == length(unique(df$x_numeric))){
+      df$x_categorical=as.factor(round(df$x_numeric, 4))
+    } else {
+      df$x_categorical=as.factor(df$x_numeric)
     }
   } else {
     ### for strictly categorical explanatory variable
@@ -81,7 +84,6 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   x_LEVELS_AND_NUMBERS = aggregate(x_numeric ~ x_categorical, data=df, FUN=mean)
   x_levels = as.character(x_LEVELS_AND_NUMBERS[,1])
   x_numbers = as.numeric(x_LEVELS_AND_NUMBERS[,2])
-
   ### calculate the summary statistics of the x and y vairables
   x_min = min(df$x_numeric)
   x_max = max(df$x_numeric)
