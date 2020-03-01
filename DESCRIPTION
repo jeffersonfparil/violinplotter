@@ -1,5 +1,5 @@
 Package: violinplotter
-Title: R Package for Plotting and Comparing Means with Violin Plots
+Title: Plotting and Comparing Means with Violin Plots
 Version: 1.0.0.0
 Authors@R:
     person(given = "Jefferson",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = c("jeffersonparil@gmail.com", "jparil@student.unimelb.edu.au", "jfparil@up.edu.ph"),
            comment = c(ORCID = "0000-0002-5693-4123"))
-Description: Just another violin plotter with mean comparison bars and optional mean comparison grouping and regression line.
+Description: Produces violin plots with optional mean comparison with Tukey's honest significant difference (HSD) and linear regression. This package aims to be a simple and quick visualization tool for comparing means and assessing trends of categorical factors.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

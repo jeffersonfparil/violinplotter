@@ -1,4 +1,4 @@
-#' R Package for Plotting and Comparing Means with Violin Plots
+#' Plotting and Comparing Means with Violin Plots
 #'
 #' @usage violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 #'  VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
@@ -42,6 +42,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   # source("plot_violin_1x.R")
   # source("mean_comparison_HSD.R")
   # source("plot_regression_line.R")
+  # source("violinplotter.R")
   # TITLE=""; XLAB=""; YLAB=""; VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"); ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
   # XCATEGOR=FALSE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=TRUE
   # XCATEGOR=TRUE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=FALSE
@@ -100,14 +101,16 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   if (length(explanatory_var_names) > 1){
     ### define layout if we have more than one explanatory variable
     ### otherwise don't set the layout so the user can define their own layout and print multiple plots
+    orig_par = par(no.readonly=TRUE)
+    on.exit(par(orig_par))
     m = length(explanatory_var_names)
     par(mfrow=c(round(sqrt(m)), (floor(sqrt(m)) + ceiling(sqrt(m) %% floor(sqrt(m))))))
   }
   for (i in 1:length(explanatory_var_names)){
     # i = 4
-    print("======================================================")
-    print(paste0("Violin Plotting: ", explanatory_var_names[i]))
-    print("======================================================")
+    message("======================================================")
+    message(paste0("Violin Plotting: ", explanatory_var_names[i]))
+    message("======================================================")
     VIOPLOT_LETTERS2NUMS = plot_violin_1x(dat=df,
                                           response_variable_name=response_var_name,
                                           explanatory_variable_name=explanatory_var_names[i],
@@ -121,9 +124,9 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                           LOG=LOGX[i],
                                           BASE=LOGX_BASE[i])
     if (HSDX[i]==TRUE){
-      print("======================================================")
-      print(paste0("HSD Grouping: ", explanatory_var_names[i]))
-      print("======================================================")
+      message("======================================================")
+      message(paste0("HSD Grouping: ", explanatory_var_names[i]))
+      message("======================================================")
       HSD_out = mean_comparison_HSD(formula=formula,
                                     data=data,
                                     explanatory_variable_name=explanatory_var_names[i],
@@ -133,9 +136,9 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                     PLOT=TRUE)
     } else {HSD_out = NULL}
     if (REGRESSX[i]==TRUE){
-      print("======================================================")
-      print(paste0("Linear Regressing: ", explanatory_var_names[i]))
-      print("======================================================")
+      message("======================================================")
+      message(paste0("Linear Regressing: ", explanatory_var_names[i]))
+      message("======================================================")
       REGRESS_out = plot_regression_line(dat=df,
                                         response_variable_name=response_var_name,
                                         explanatory_variable_name=explanatory_var_names[i],
