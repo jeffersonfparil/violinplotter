@@ -8,7 +8,7 @@ plot_violin_1x(dat, response_variable_name, explanatory_variable_name,
                title="", xlab="", ylab="",
                    COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
                BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
-               XTICKS=TRUE, LOG=FALSE, BASE=10)
+               CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10)
 }
 \arguments{
 \item{dat}{dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]}
@@ -26,6 +26,8 @@ plot_violin_1x(dat, response_variable_name, explanatory_variable_name,
 \item{COLOURS}{vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]}
 
 \item{BAR_COLOURS}{vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]}
+
+\item{CI}{numeric referring to the percent confidence interval [default=95]}
 
 \item{XTICKS}{logical referring to whether the explanatory variable is strictly categorical [default=TRUE]}
 

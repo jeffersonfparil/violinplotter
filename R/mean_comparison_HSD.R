@@ -38,11 +38,9 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   mod = aov(formula, data=df)
   anova_table = as.data.frame(anova(mod))
   if (anova_table$Pr[rownames(anova_table) == explanatory_variable_name] < alpha){
-    print(anova_table)
-    print(paste0(explanatory_variable_name, " has a significant effect on the response variable!"))
+    message(paste0(explanatory_variable_name, " has a significant effect on the response variable!"))
   } else {
-    print(anova_table)
-    print(paste0(explanatory_variable_name, " has a no significant effect on the response variable!"))
+    message(paste0(explanatory_variable_name, " has a no significant effect on the response variable!"))
   }
   ### computate the means per explanatory variable level
   means = eval(parse(text=paste0("aggregate(",  response_var_name, "~ `", explanatory_variable_name, "`, data=df, FUN=mean)")))
@@ -101,7 +99,7 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
                   warning=function(e){as.numeric(as.factor(x_levels))})
   if (LOG==TRUE){
     ### transform the level names into the corresponding level names we used previously (x_levels and x_numbers) because we will be merging dataframes below
-    if(sum(is.na(log(x_numbers, base=BASE))) == 0){
+    if(sum(is.na(suppressWarnings(log(x_numbers, base=BASE)))) == 0){
       x_numbers = log(x_numbers, base=BASE)
     } else {
       x_numbers = log(x_numbers + (abs(min(x_numbers)) + 1), base=BASE)

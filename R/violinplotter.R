@@ -1,9 +1,9 @@
-#' R Package for Plotting and Comparing Means with Violin Plots
+#' Plotting and Comparing Means with Violin Plots
 #'
 #' @usage violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 #'  VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
 #'  ERROR_BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
-#'  XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=1, HSDX=TRUE,
+#'  XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE,
 #'  ALPHA=0.05, REGRESSX=FALSE)
 #'
 #' @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
@@ -11,7 +11,7 @@
 #' @param TITLE string or vector of strings corresponding to violin plot title/s [default: combinations of the "response variable name X explanatory variable" from the dataframe column names]
 #' @param XLAB string or vector of strings specifying the x-axis labels [default: column names of the explanatory variables (and their combinations) from data]
 #' @param YLAB string or vector of strings specifying the y-axis labels [default: column names of the response variable from data]
-#' @param VIOLIN_COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
+#' @param VIOLIN_COLOURS vector or list of vectors of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels or less than the number of explanatory factors in the case of a list [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
 #' @param ERROR_BAR_COLOURS vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
 #' @param XCATEGOR logical or vector of logicals referring to whether the explanatory variable/s is/are strictly categorical [default=TRUE]
 #' @param LOGX logical or vector of logicals referring to whether to transform the explanatory variable/s into the logarithm scale [default=FALSE]
@@ -42,6 +42,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   # source("plot_violin_1x.R")
   # source("mean_comparison_HSD.R")
   # source("plot_regression_line.R")
+  # source("violinplotter.R")
   # TITLE=""; XLAB=""; YLAB=""; VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"); ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
   # XCATEGOR=FALSE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=TRUE
   # XCATEGOR=TRUE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=FALSE
@@ -64,6 +65,13 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
     TITLE = paste0(YLAB, "\nX\n", XLAB)
   }
 
+  ### What are the violin plot colours we're using for each explanatory variable?
+  if (is.list(VIOLIN_COLOURS)==FALSE) {
+    VIOLIN_COLOURS = rep(list(VIOLIN_COLOURS), times=length(explanatory_var_names))
+  } else if (length(VIOLIN_COLOURS) < length(explanatory_var_names)){
+    VIOLIN_COLOURS = rep(VIOLIN_COLOURS, times=(length(explanatory_var_names)-length(VIOLIN_COLOURS)+1))
+  }
+
   ### Do we have to transform the explanatory variable/s into the log space?
   if (length(LOGX) != ncol(df)-1) {
     LOGX = rep(LOGX, times=ncol(df)-1)
@@ -76,6 +84,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   if (length(XCATEGOR) != ncol(df)-1) {
     XCATEGOR = rep(XCATEGOR, times=ncol(df)-1)
   }
+  XCATEGOR[LOGX] = FALSE ### automatically convert factors into non-strictly categorcialy if they were set to be log-transformed!
 
   ### Do we have to perform Tukey's hones significant difference test across the explanatory variable/s?
   if (length(HSDX) != ncol(df)-1) {
@@ -92,30 +101,32 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   if (length(explanatory_var_names) > 1){
     ### define layout if we have more than one explanatory variable
     ### otherwise don't set the layout so the user can define their own layout and print multiple plots
+    orig_par = par(no.readonly=TRUE)
+    on.exit(par(orig_par))
     m = length(explanatory_var_names)
     par(mfrow=c(round(sqrt(m)), (floor(sqrt(m)) + ceiling(sqrt(m) %% floor(sqrt(m))))))
   }
   for (i in 1:length(explanatory_var_names)){
     # i = 4
-    print("======================================================")
-    print(paste0("Violin Plotting: ", explanatory_var_names[i]))
-    print("======================================================")
+    message("======================================================")
+    message(paste0("Violin Plotting: ", explanatory_var_names[i]))
+    message("======================================================")
     VIOPLOT_LETTERS2NUMS = plot_violin_1x(dat=df,
                                           response_variable_name=response_var_name,
                                           explanatory_variable_name=explanatory_var_names[i],
                                           title=TITLE[i],
                                           xlab=XLAB[i],
                                           ylab=YLAB,
-                                          COLOURS=VIOLIN_COLOURS,
+                                          COLOURS=VIOLIN_COLOURS[[i]],
                                           BAR_COLOURS=ERROR_BAR_COLOURS,
                                           CI=(1-ALPHA)*100,
                                           XTICKS=XCATEGOR[i],
                                           LOG=LOGX[i],
                                           BASE=LOGX_BASE[i])
     if (HSDX[i]==TRUE){
-      print("======================================================")
-      print(paste0("HSD Grouping: ", explanatory_var_names[i]))
-      print("======================================================")
+      message("======================================================")
+      message(paste0("HSD Grouping: ", explanatory_var_names[i]))
+      message("======================================================")
       HSD_out = mean_comparison_HSD(formula=formula,
                                     data=data,
                                     explanatory_variable_name=explanatory_var_names[i],
@@ -125,9 +136,9 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                     PLOT=TRUE)
     } else {HSD_out = NULL}
     if (REGRESSX[i]==TRUE){
-      print("======================================================")
-      print(paste0("Linear Regressing: ", explanatory_var_names[i]))
-      print("======================================================")
+      message("======================================================")
+      message(paste0("Linear Regressing: ", explanatory_var_names[i]))
+      message("======================================================")
       REGRESS_out = plot_regression_line(dat=df,
                                         response_variable_name=response_var_name,
                                         explanatory_variable_name=explanatory_var_names[i],

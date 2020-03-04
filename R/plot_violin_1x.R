@@ -4,7 +4,7 @@
 #'                title="", xlab="", ylab="",
 #'                    COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
 #'                BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
-#'                XTICKS=TRUE, LOG=FALSE, BASE=10)
+#'                CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10)
 #'
 #' @param dat dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
 #' @param response_variable_name string referring to the variable name of the response variable [mandatory]
@@ -31,7 +31,7 @@
 #' DF = parse_formula(formula=formula, data=data)
 #' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
 #'
-#' @importFrom stats qnorm density
+#' @importFrom stats qnorm density aggregate
 #' @importFrom graphics par plot axis polygon arrows points grid par
 #'
 #' @export
@@ -43,7 +43,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   # y = rnorm(length(y)) ### null test
   ### merge them into a data frame for ease of handling
   ### while converting the x variable into both categorical and numeric variables
-  # x_categorical = NA
+  x_categorical = NA ### to prevent devtools error: Undefined global functions or variables: x_categorical
   x_numeric = tryCatch(
     as.numeric(gsub("_", "-", x)),
     warning=function(e){
@@ -52,22 +52,25 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   )
   if (XTICKS==FALSE){
     ### for numeric explanatory variable
-    df = data.frame(y=y, x_categorical=as.factor(round(x_numeric,3)), x_numeric=x_numeric) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
+    df = data.frame(y=y, x_categorical=as.factor(x_numeric), x_numeric=x_numeric) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
     df = droplevels(df[complete.cases(df), ])
     df$y = as.numeric(y)
-    df$x_categorical = as.factor(df$x_categorical)
     df$x_numeric = as.numeric(df$x_numeric)
     ### transform the x axis into log-scale for ease of viewing
     if (LOG==TRUE){
-      if(sum(is.na(log(df$x_numeric, base=BASE)), na.rm=T) == 0){
+      if(sum(is.na(suppressWarnings(log(df$x_numeric, base=BASE))), na.rm=T) == 0){
         df$x_numeric=log(df$x_numeric, base=BASE)
-        df$x_categorical=as.factor(round(df$x_numeric, 3))
         xlab = paste0("log", BASE, "(", xlab, ")")
       } else {
         df$x_numeric=log(df$x_numeric+abs(min(df$x_numeric))+1, base=BASE)
-        df$x_categorical=as.factor(round(df$x_numeric, 3))
         xlab = paste0("log", BASE, "(", xlab, "+", round(min(df$x_numeric)+1, 3), ")")
       }
+    }
+    ### convert numeric factors into categories
+    if (length(unique(round(df$x_numeric, 4))) == length(unique(df$x_numeric))){
+      df$x_categorical=as.factor(round(df$x_numeric, 4))
+    } else {
+      df$x_categorical=as.factor(df$x_numeric)
     }
   } else {
     ### for strictly categorical explanatory variable
@@ -81,7 +84,6 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   x_LEVELS_AND_NUMBERS = aggregate(x_numeric ~ x_categorical, data=df, FUN=mean)
   x_levels = as.character(x_LEVELS_AND_NUMBERS[,1])
   x_numbers = as.numeric(x_LEVELS_AND_NUMBERS[,2])
-
   ### calculate the summary statistics of the x and y vairables
   x_min = min(df$x_numeric)
   x_max = max(df$x_numeric)

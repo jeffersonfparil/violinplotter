@@ -1,11 +1,12 @@
 # violinplotter
-## R Package for Plotting and Comparing Means with Violin Plots
+## Plotting and Comparing Means with Violin Plots
 
 |                                                        **Lab Website**                                                        |                                                               **Build Status**                                                                |                                                                              **Documentation**                                                                               |                                                   **License**                                                   |
 |:-----------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|
 | <a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/adaevo_lab_unimelb_2020.png" width="150"></a> | [![Build Status](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)](https://travis-ci.com/jeffersonfparil/violinplotter) | <a href="https://github.com/jeffersonfparil/violinplotter/wiki" target="_blank"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Latest documentation"></a> | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 
-Just another violin plotter with mean comparison bars and optional Tukey's honest significant difference grouping and/or regression line
+An R package for generating violin plots with optional mean comparison with Tukey's honest significant difference (HSD) and linear regression.
+This package aims to b a simple and quick visualization tool for comparing means and assessing trends of categorical factors.
 
 ## Usage
 
@@ -39,6 +40,9 @@ data = data.frame(x1, x2, x3, y)
 OUT_1 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.05)
 OUT_2 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.001)
 OUT_3 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, XCATEGOR=c(F,T,T,T), LOGX=c(T,F,F,F), LOGX_BASE=c(2,1,1,1), REGRESSX=c(T,F,F,F))
+if (sum(grepl("RColorBrewer", installed.packages()[,1]))!=0){
+  OUT_4 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, VIOLIN_COLOURS=list(RColorBrewer::brewer.pal(9, "Set1"), RColorBrewer::brewer.pal(9, "Spectral"), RColorBrewer::brewer.pal(9, "GnBu")))
+}
 ```
 
 Dummy dataset:
@@ -48,6 +52,7 @@ library(violinplotter)
 str(dummy_data)
 OUT_1 = violinplotter(formula = RESPONSE_1 ~ STRATUM*TREATMENT, data=dummy_data, XCATEGOR=c(FALSE,TRUE,TRUE), REGRESSX=c(TRUE, FALSE, FALSE), HSD=c(TRUE, TRUE, FALSE))
 OUT_2 = violinplotter(formula = RESPONSE_2 ~ STRATUM*TREATMENT, data=dummy_data)
+OUT_3 = supressMessages(violinplotter(formula = RESPONSE_2 ~ STRATUM + TREATMENT, data=dummy_data))
 ```
 Sample output figure:
 
