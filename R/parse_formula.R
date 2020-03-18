@@ -8,7 +8,7 @@
 #' @param IMPUTE_METHOD imputation function to use [default=mean]
 #'
 #' @return Dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns
-#' @return All explanarory variables are converted inro categorical variables
+#' @return All explanatory variables are converted into categorical variables
 #'
 #' @examples
 #' x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
