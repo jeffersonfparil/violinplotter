@@ -8,7 +8,7 @@ There were no ERRORs or WARNINGs or NOTEs.
 
 ## Spell checking
 Hex color codes are being identified as misspelled words.
-HSD is an acronym for Tukey's Honest Signficant Difference.
+github, Github, https, jeffersonfparil, md, README, and YYYYMMDD are not mispelled.
 
 ## Unexpected files and folders
 The "misc/" directory is storing a png image used in the README.md file

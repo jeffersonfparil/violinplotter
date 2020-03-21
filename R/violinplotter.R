@@ -32,9 +32,6 @@
 #' formula = y ~ x1 + x2 + x3 + (x2:x3)
 #' OUT = violinplotter(formula=formula, data=data)
 #'
-### next @importFrom is for tests/ which require installing from the github repo
-#' @importFrom remotes install_github
-#'
 #' @export
 violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){
   ### FOR TESTING: load the parsing, plotting, HSD, and regressing functions
