@@ -98,8 +98,8 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   ### define las: i.e. the orientation of the x-axis tick labels
   ### as well as the plot margins and the x-axis label
   max_nchar = max(unlist(lapply(x_levels, FUN=nchar)))
-  orig_par = par(no.readonly=TRUE)
-  on.exit(par(orig_par))
+  # orig_par = par(no.readonly=TRUE)
+  # on.exit(par(orig_par)) ### breaks the layout (justification: this funtion is only called by the main function: violinplotter())
   if (max_nchar > 7){
     las = 2
     par(mar=c(max_nchar*0.70, 5, 7, 2))
