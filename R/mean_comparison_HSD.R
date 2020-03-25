@@ -1,34 +1,33 @@
-#' Tukey's mean comparison and grouping using fixed effect linear modeling with optional plotting of grouping letters
-#'
-#' @usage mean_comparison_HSD(formula, data=NULL, explanatory_variable_name, alpha=0.05,
-#'                    LOG=FALSE, BASE=10, PLOT=FALSE)
-#'
-#' @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
-#' @param data data.frame containing the response and explanatory variables which forms the formula above [default=NULL]
-#' @param explanatory_variable_name string referring to the variable name of the explanatory variable whose class means will be compared [mandatory]
-#' @param alpha numeric significance level for Tukey's mean comparison [default=0.05]
-#' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
-#' @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
-#' @param PLOT logical referring to whether plot the mean comparison grouping letters into an existing plot [default=FALSE]
-#'
-#' @return Tukey's honest significant difference grouping table with response variable categorical means, grouping, level names and corresponding numeric counterparts
-#' @return Appends honest significant difference grouping letters into an existing plot
-#'
-#' @examples
-#' x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
-#' x2 = rep(rep(letters[6:10], each=5*5), times=5)
-#' x3 = rep(letters[11:15], each=5*5*5)
-#' y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
-#' data = data.frame(x1, x2, x3, y)
-#' formula = y ~ x1 + x2 + x3 + (x2:x3)
-#' DF = parse_formula(formula=formula, data=data)
-#' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
-#' HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
-#'
+# Tukey's mean comparison and grouping using fixed effect linear modeling with optional plotting of grouping letters
+#
+# @usage mean_comparison_HSD(formula, data=NULL, explanatory_variable_name, alpha=0.05,
+#                    LOG=FALSE, BASE=10, PLOT=FALSE)
+#
+# @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
+# @param data data.frame containing the response and explanatory variables which forms the formula above [default=NULL]
+# @param explanatory_variable_name string referring to the variable name of the explanatory variable whose class means will be compared [mandatory]
+# @param alpha numeric significance level for Tukey's mean comparison [default=0.05]
+# @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
+# @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
+# @param PLOT logical referring to whether plot the mean comparison grouping letters into an existing plot [default=FALSE]
+#
+# @return Tukey's honest significant difference grouping table with response variable categorical means, grouping, level names and corresponding numeric counterparts
+# @return Appends honest significant difference grouping letters into an existing plot
+#
+# @examples
+# x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
+# x2 = rep(rep(letters[6:10], each=5*5), times=5)
+# x3 = rep(letters[11:15], each=5*5*5)
+# y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
+# data = data.frame(x1, x2, x3, y)
+# formula = y ~ x1 + x2 + x3 + (x2:x3)
+# DF = parse_formula(formula=formula, data=data)
+# plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
+# HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
+#
 #' @importFrom stats aov anova sd
 #' @importFrom graphics text
-#'
-#' @export
+#
 mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE) {
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
   df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)

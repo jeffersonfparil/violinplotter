@@ -1,35 +1,34 @@
-#' Regress the response variable against one explanatory variable
-#'
-#' @usage plot_regression_line(dat, response_variable_name, explanatory_variable_name,
-#'                      LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray")
-#'
-#' @param dat dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
-#' @param response_variable_name string referring to the variable name of the response variable [mandatory]
-#' @param explanatory_variable_name string referring to the variable name of the explanatory variable [mandatory]
-#' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
-#' @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
-#' @param PLOT logical referring to whether to plot the regression line into the existing plot [default=FALSE]
-#' @param LINE_COL string referring to the color or the regression line [default="gray"]
-#'
-#' @return Linear regression statistics (completely fixed linear model): intercept, slope and coefficient of determination adjusted-R^2
-#'
-#' @examples
-#' x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
-#' x2 = rep(rep(letters[6:10], each=5*5), times=5)
-#' x3 = rep(letters[11:15], each=5*5*5)
-#' y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
-#' data = data.frame(x1, x2, x3, y)
-#' formula = y ~ x1 + x2 + x3 + (x2:x3)
-#' DF = parse_formula(formula=formula, data=data)
-#' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x1")
-#' HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x1", PLOT=TRUE)
-#' REGRESS = plot_regression_line(dat=DF, response_variable_name="y",
-#'                                explanatory_variable_name="x1")
-#'
+# Regress the response variable against one explanatory variable
+#
+# @usage plot_regression_line(dat, response_variable_name, explanatory_variable_name,
+#                      LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray")
+#
+# @param dat dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
+# @param response_variable_name string referring to the variable name of the response variable [mandatory]
+# @param explanatory_variable_name string referring to the variable name of the explanatory variable [mandatory]
+# @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
+# @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
+# @param PLOT logical referring to whether to plot the regression line into the existing plot [default=FALSE]
+# @param LINE_COL string referring to the color or the regression line [default="gray"]
+#
+# @return Linear regression statistics (completely fixed linear model): intercept, slope and coefficient of determination adjusted-R^2
+#
+# @examples
+# x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
+# x2 = rep(rep(letters[6:10], each=5*5), times=5)
+# x3 = rep(letters[11:15], each=5*5*5)
+# y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
+# data = data.frame(x1, x2, x3, y)
+# formula = y ~ x1 + x2 + x3 + (x2:x3)
+# DF = parse_formula(formula=formula, data=data)
+# plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x1")
+# HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x1", PLOT=TRUE)
+# REGRESS = plot_regression_line(dat=DF, response_variable_name="y",
+#                                explanatory_variable_name="x1")
+#
 #' @importFrom stats lm
 #' @importFrom graphics lines legend
-#'
-#' @export
+#
 plot_regression_line = function(dat, response_variable_name, explanatory_variable_name, LOG=FALSE, BASE=10, PLOT=TRUE, LINE_COL="gray"){
   x_levels = eval(parse(text=paste0("levels(as.factor(dat$`", explanatory_variable_name, "`))")))
   x_numbers = tryCatch(as.numeric(gsub("_", "-", as.character(x_levels))),
