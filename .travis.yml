@@ -2,7 +2,12 @@ language: r
 
 warnings_are_errors: false
 
+before_install:
+  - mkdir ~/R_packages_test/
+  - echo -e 'R_LIBS=~/R_packages_test/' > ~/.Renviron
+  - Rscript -e "install.packages('remotes', verbose=FALSE)"
+  - Rscript -e "remotes::install_github('jeffersonfparil/violinplotter')"
+
 after_success:
-  - Rscript tests/test0.R
   - Rscript tests/test1.R
   - Rscript tests/test2.R

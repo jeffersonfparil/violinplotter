@@ -6,4 +6,5 @@ y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1)) ### x3 is the var
 data = data.frame(x1, x2, x3, y)
 OUT_1 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.05)
 OUT_2 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.001)
-OUT_3 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, XCATEGOR=c(F,T,T,T), LOGX=c(T,F,F,F), LOGX_BASE=c(2,1,1,1), REGRESSX=c(T,F,F,F))
+OUT_3 = violinplotter(formula=log(y) ~ exp(x1) + x2 + x3 + (x2:x3), data=data, ALPHA=0.001)
+OUT_4 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, XCATEGOR=c(F,T,T,T), LOGX=c(T,F,F,F), LOGX_BASE=c(2,1,1,1), REGRESSX=c(T,F,F,F))
