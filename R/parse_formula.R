@@ -15,8 +15,7 @@
 # x2 = rep(rep(letters[6:10], each=5*5), times=5)
 # x3 = rep(letters[11:15], each=5*5*5)
 # y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
-# data = data.frame(x1, x2, x3, y)
-# formula = y ~ x1 + x2 + x3 + (x2:x3)
+# formula = log(y) ~ exp(x1) + x2 + x3 + (x2:x3)
 # DF = parse_formula(formula=formula, data=data)
 #
 #' @importFrom stats terms complete.cases
@@ -25,6 +24,10 @@ parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
   ### parse the input formula
   response_var = as.character(unlist(as.list(attr(terms(formula), "variables"))[-1]))[1]
   explanatory_var = as.character(unlist(as.list(attr(terms(formula), "term.labels"))))
+  ### attach the data if not NULL
+  if (!is.null(data)){
+    attach(data)
+  }
   ### build the dataframe with explicit interaction variables (columns) if included in the formula
   non_interaction_terms = explanatory_var[!grepl(":", explanatory_var)]
   interaction_terms = explanatory_var[grepl(":", explanatory_var)]
@@ -32,10 +35,13 @@ parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
   for (i in 1:length(c(non_interaction_terms, interaction_terms))){
     # i = 1
     term = c(non_interaction_terms, interaction_terms)[i]
-    explanatory_list[[i]] = eval(parse(text=paste0("paste(", paste(paste0("data$", unlist(strsplit(term, ":"))), collapse=","), ", sep=':')")))
+    explanatory_list[[i]] = eval(parse(text=paste0("paste(", paste(paste0(unlist(strsplit(term, ":"))), collapse=","), ", sep=':')")))
   }
-  # df =  eval(parse(text=paste0("data.frame(y=data$", response_var, ",", gsub("\"", "'", paste(paste(explanatory_list), collapse=", ")), ")")))
-  df =  eval(parse(text=paste0("data.frame(y=data$", response_var, ",", gsub("-", "_", gsub("\"", "'", paste(paste(explanatory_list), collapse=", "))), ")")))
+  df =  eval(parse(text=paste0("data.frame(y=", response_var, ",", gsub("-", "_", gsub("\"", "'", paste(paste(explanatory_list), collapse=", "))), ")")))
+  ### dettach the data if not NULL
+  if (!is.null(data)){
+    detach(data)
+  }
   ### impute missing response variable data?
   if (IMPUTE == TRUE) {
     idx_missing = is.na(df$y) | is.infinite(df$y)

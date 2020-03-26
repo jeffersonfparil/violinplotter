@@ -46,6 +46,7 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   colnames(means) = c("LEVELS", "MEANS")
   means = means[order(means$MEANS, decreasing=TRUE), ]
   ### compute the HSD pairwise comparison
+  eval(parse(text=paste0("mod$model$`", explanatory_variable_name, "` = as.factor(mod$model$`", explanatory_variable_name, "`)")))
   hsd = eval(parse(text=paste0("as.data.frame(TukeyHSD(mod, conf.level=", 1.00-alpha, ")$`", explanatory_variable_name, "`)")))
   ### add "LEVEL_" string to allow for explanatory variable that are originally numeric to be easily set as list names
   factor_labels = matrix(paste0("LEVEL_", unlist(strsplit(rownames(hsd), "-"))), ncol=2, byrow=TRUE)
