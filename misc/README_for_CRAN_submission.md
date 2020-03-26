@@ -2,7 +2,7 @@
 ## Plotting and Comparing Means with Violin Plots
 
 An R package for generating violin plots with optional mean comparison with Tukey's honest significant difference and linear regression.
-This package aims to b a simple and quick visualization tool for comparing means and assessing trends of categorical factors.
+This package aims to be a simple and quick visualization tool for comparing means and assessing trends of categorical factors.
 
 ## Usage
 
