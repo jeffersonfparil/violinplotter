@@ -143,9 +143,9 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
       ### draw the polygon
       polygon(x=poly_x, y=poly_y, border=NA, col=COLOURS[i])
       ### plot the summary statistics
-      arrows(x0=x_numbers[i], y0=mu+sigma, y1=mu-sigma, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[1])
-      arrows(x0=x_numbers[i], y0=mu+se, y1=mu-se, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[2])
-      arrows(x0=x_numbers[i], y0=mu+ci, y1=mu-ci, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[3])
+      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+sigma, y1=mu-sigma, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[1]))
+      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+se, y1=mu-se, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[2]))
+      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+ci, y1=mu-ci, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[3]))
     }
     points(x=x_numbers[i], y=mu, pch=20)
     # print(x_levels[i])
