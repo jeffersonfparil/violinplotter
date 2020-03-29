@@ -38,6 +38,7 @@ parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
     explanatory_list[[i]] = eval(parse(text=paste0("paste(", paste(paste0(unlist(strsplit(term, ":"))), collapse=","), ", sep=':')")))
   }
   df =  eval(parse(text=paste0("data.frame(y=", response_var, ",", gsub("-", "_", gsub("\"", "'", paste(paste(explanatory_list), collapse=", "))), ")")))
+  df = droplevels(df[complete.cases(df), ])
   ### dettach the data if not NULL
   if (!is.null(data)){
     detach(data)
@@ -48,7 +49,7 @@ parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
     df$y[idx_missing] = IMPUTE_METHOD(df$y[!idx_missing])
     # eval(parse(text=paste0("data$", response_var, "[idx_missing] = IMPUTE_METHOD(df$", response_var, "[!idx_missing])")))
   }
-  df = df[complete.cases(df), ]
+  df = droplevels(df[complete.cases(df), ])
   colnames(df) = c(response_var, non_interaction_terms, interaction_terms)
   return(df)
 }
