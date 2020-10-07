@@ -108,7 +108,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
     par(mar=c(5, 5, 7, 2))
   }
   ### find y-axis ticks location not going beyond the range of y
-  plot(y, type="n", main="", xlab="", ylab="", xaxt="n", yaxt="n")
+  plot(y, new=FALSE, type="n", main="", xlab="", ylab="", xaxt="n", yaxt="n")
   y_ticks = axTicks(2)
   ### initialize the plot with or without the x-axis
   if (XTICKS==TRUE){
