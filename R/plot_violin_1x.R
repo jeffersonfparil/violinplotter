@@ -108,17 +108,17 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
     par(mar=c(5, 5, 7, 2))
   }
   ### find y-axis ticks location not going beyond the range of y
-  plot(y, type="n")
+  plot(y, type="n", main="", xlab="", ylab="", xaxt="n", yaxt="n")
   y_ticks = axTicks(2)
   ### initialize the plot with or without the x-axis
   if (XTICKS==TRUE){
     ### for strictly categorical explanatory variable
-    plot(x=c(x_min-max_x_interval, x_max+max_x_interval), y=c(y_min-y_sd, y_max+y_sd), type="n", main=title, xlab=xlab, ylab=ylab, las=las, xaxt="n", yaxt="n")
+    plot(x=c(x_min-max_x_interval, x_max+max_x_interval), y=c(y_min-y_sd, y_max+y_sd), new=FALSE, type="n", main=title, xlab=xlab, ylab=ylab, las=las, xaxt="n", yaxt="n")
     axis(side=1, at=x_numbers, labels=x_levels, las=las)
     axis(side=2, at=y_ticks, labels=y_ticks, las=2)
   } else {
     ### for continuous explanatory variable
-    plot(x=c(x_min-max_x_interval, x_max+max_x_interval), y=c(y_min-y_sd, y_max+y_sd), type="n", main=title, xlab=xlab, ylab=ylab, las=las, yaxt="n")
+    plot(x=c(x_min-max_x_interval, x_max+max_x_interval), y=c(y_min-y_sd, y_max+y_sd), new=FALSE, type="n", main=title, xlab=xlab, ylab=ylab, las=las, yaxt="n")
     axis(side=2, at=y_ticks, labels=y_ticks, las=2)
   }
   ### iteratively plot the density of each explanatory variable level
