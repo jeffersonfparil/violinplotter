@@ -35,6 +35,9 @@
 #' @importFrom graphics par plot axis polygon arrows points grid par
 #
 plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10){
+  ### FOR TESTING:
+  # dat=DF; response_variable_name="y"; explanatory_variable_name="x3"
+  # title=""; xlab=""; ylab=""; COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"); BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"); CI=95; XTICKS=TRUE; LOG=FALSE; BASE=10
   ### extract the dependent or response or y variable, as well as the independent or explanatory or x variable
   x = as.character(eval(parse(text=paste0("dat$`", explanatory_variable_name, "`")))) ### numeric and categorical both treated as categorical
   # x = as.factor(gsub("-", "_", x)) ### remove "-" because it will conflict with the string splitting if performing TukeyHSD()
@@ -131,27 +134,29 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
     sigma = sd(subdat$y)
     se = sd(subdat$y)/sqrt(nrow(subdat)-1)
     ci = qnorm(((CI/100)/2)+0.50) * se
-    ### calculate the density with binning adjustment proportional the number of observations divded by 1x10^5
-    d = density(subdat$y, adjust=max(c(1, nrow(subdat)/1e5)))
-    ### restrict the range of the response variable to the input dataframe
-    d$y = d$y[(d$x >= min(df$y)) & (d$x <= max(df$y))]
-    d$x = d$x[(d$x >= min(df$y)) & (d$x <= max(df$y))]
-    ### tranform the density (d$y) into the 0.00 to 1.00 range (in preparation to be mutiplied withe maximum interval variable: "max_x_interval")
-    d.y_min = min(d$y)
-    d.y_max = max(d$y)
-    d$y = (d$y - d.y_min) / (d.y_max - d.y_min)
-    ### define the x-axis points of the polygon defined as the density values left and right of the explanatory variable (df$x) level or value
-    poly_x = c(x_numbers[i]-rev(d$y*max_x_interval), x_numbers[i]+(d$y*max_x_interval))
-    ### define the y-axis points of the polygon defined as the range of values of the response variable (df$y)
-    poly_y = c(rev(d$x), d$x)
-    ### draw violin polygon and reeor bars when the variance is greater than 0
-    if (sigma > 0){
-      ### draw the polygon
-      polygon(x=poly_x, y=poly_y, border=NA, col=COLOURS[i])
-      ### plot the summary statistics
-      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+sigma, y1=mu-sigma, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[1]))
-      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+se, y1=mu-se, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[2]))
-      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+ci, y1=mu-ci, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[3]))
+    if (is.na(sigma)==FALSE){
+      ### calculate the density with binning adjustment proportional the number of observations divded by 1x10^5
+      d = density(subdat$y, adjust=max(c(1, nrow(subdat)/1e5)))
+      ### restrict the range of the response variable to the input dataframe
+      d$y = d$y[(d$x >= min(df$y)) & (d$x <= max(df$y))]
+      d$x = d$x[(d$x >= min(df$y)) & (d$x <= max(df$y))]
+      ### tranform the density (d$y) into the 0.00 to 1.00 range (in preparation to be mutiplied withe maximum interval variable: "max_x_interval")
+      d.y_min = min(d$y)
+      d.y_max = max(d$y)
+      d$y = (d$y - d.y_min) / (d.y_max - d.y_min)
+      ### define the x-axis points of the polygon defined as the density values left and right of the explanatory variable (df$x) level or value
+      poly_x = c(x_numbers[i]-rev(d$y*max_x_interval), x_numbers[i]+(d$y*max_x_interval))
+      ### define the y-axis points of the polygon defined as the range of values of the response variable (df$y)
+      poly_y = c(rev(d$x), d$x)
+      ### draw violin polygon and reeor bars when the variance is greater than 0
+      if (sigma > 0){
+        ### draw the polygon
+        polygon(x=poly_x, y=poly_y, border=NA, col=COLOURS[i])
+        ### plot the summary statistics
+        suppressWarnings(arrows(x0=x_numbers[i], y0=mu+sigma, y1=mu-sigma, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[1]))
+        suppressWarnings(arrows(x0=x_numbers[i], y0=mu+se, y1=mu-se, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[2]))
+        suppressWarnings(arrows(x0=x_numbers[i], y0=mu+ci, y1=mu-ci, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[3]))
+      }
     }
     points(x=x_numbers[i], y=mu, pch=20)
     # print(x_levels[i])

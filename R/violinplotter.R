@@ -28,9 +28,8 @@
 #' x2 = rep(rep(letters[6:10], each=5*5), times=5)
 #' x3 = rep(letters[11:15], each=5*5*5)
 #' y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
-#' data = data.frame(x1, x2, x3, y)
-#' formula = y ~ x1 + x2 + x3 + (x2:x3)
-#' OUT = violinplotter(formula=formula, data=data)
+#' formula = log(y) ~ exp(x1) + x2 + x3 + (x2:x3)
+#' OUT = violinplotter(formula=formula)
 #'
 #' @export
 violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){
@@ -40,9 +39,15 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   # source("mean_comparison_HSD.R")
   # source("plot_regression_line.R")
   # source("violinplotter.R")
+  # x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
+  # x2 = rep(rep(letters[6:10], each=5*5), times=5)
+  # x3 = rep(letters[11:15], each=5*5*5)
+  # y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
+  # formula = log(y) ~ exp(x1) + x2 + x3 + (x2:x3)
+  # data = NULL
   # TITLE=""; XLAB=""; YLAB=""; VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"); ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
-  # XCATEGOR=FALSE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=TRUE
   # XCATEGOR=TRUE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=FALSE
+  # XCATEGOR=FALSE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=TRUE
 
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
   df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)
@@ -130,7 +135,8 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                     alpha=ALPHA,
                                     LOG=LOGX[i],
                                     BASE=LOGX_BASE[i],
-                                    PLOT=TRUE)
+                                    PLOT=TRUE,
+                                    SHOW_SAMPLE_SIZE=TRUE)
     } else {HSD_out = NULL}
     if (REGRESSX[i]==TRUE){
       message("======================================================")
