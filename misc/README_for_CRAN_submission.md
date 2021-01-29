@@ -1,10 +1,6 @@
 # violinplotter
 ## Plotting and Comparing Means with Violin Plots
 
-|                                                        **Lab Website**                                                        |                                                               **Build Status**                                                                |                                                                              **Documentation**                                                                               |                                                   **License**                                                   |
-|:-----------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|
-| <a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/adaevo_lab_unimelb_2020.png" width="150"></a> | [![Build Status](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)](https://travis-ci.com/jeffersonfparil/violinplotter) | <a href="https://github.com/jeffersonfparil/violinplotter/wiki" target="_blank"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Latest documentation"></a> | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-
 An R package for generating violin plots with optional mean comparison with Tukey's honest significant difference and linear regression.
 This package aims to be a simple and quick visualization tool for comparing means and assessing trends of categorical factors.
 
@@ -17,10 +13,8 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("
 
 ## Installation
 
-```r
-install.packages("violinplotter")
-```
-For the development version, please download from github via:
+We are currently working on getting this package available in the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/) for ease of installation and greater visibility. But for now please follow the installation instructions below.
+
 ```r
 ### install the "remotes" package to install R packages from github repositories
 install.packages("remotes")
@@ -56,6 +50,3 @@ OUT_1 = violinplotter(formula = RESPONSE_1 ~ STRATUM*TREATMENT, data=dummy_data,
 OUT_2 = violinplotter(formula = RESPONSE_2 ~ STRATUM*TREATMENT, data=dummy_data)
 OUT_3 = supressMessages(violinplotter(formula = RESPONSE_2 ~ STRATUM + TREATMENT, data=dummy_data))
 ```
-Sample output figure:
-
-<img src="misc/dummy_data_out.png" width="1200"></a>

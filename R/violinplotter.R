@@ -24,16 +24,13 @@
 #' @return Mean comparison grouping/s based on Tukey's Hones significant difference and regression line statistics, if applicable
 #'
 #' @examples
-#' x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
+#' x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
 #' x2 = rep(rep(letters[6:10], each=5*5), times=5)
 #' x3 = rep(letters[11:15], each=5*5*5)
 #' y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
 #' data = data.frame(x1, x2, x3, y)
 #' formula = y ~ x1 + x2 + x3 + (x2:x3)
 #' OUT = violinplotter(formula=formula, data=data)
-#'
-### next @importFrom is for tests/ which require installing from the github repo
-#' @importFrom remotes install_github
 #'
 #' @export
 violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){

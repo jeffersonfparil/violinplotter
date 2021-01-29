@@ -1,40 +1,39 @@
-#' One explanatory variable at a time violin plotter
-#'
-#' @usage plot_violin_1x(dat, response_variable_name, explanatory_variable_name,
-#'                title="", xlab="", ylab="",
-#'                    COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
-#'                BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
-#'                CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10)
-#'
-#' @param dat dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
-#' @param response_variable_name string referring to the variable name of the response variable [mandatory]
-#' @param explanatory_variable_name string referring to the variable name of the explanatory variable [mandatory]
-#' @param title string corresponding to the explanatory term including additive and interaction terms in the formula [default=""]
-#' @param xlab string specifying the x-axis label [default=""]
-#' @param ylab string specifying the y-axis label [default=""]
-#' @param COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
-#' @param BAR_COLOURS vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
-#' @param CI numeric referring to the percent confidence interval [default=95]
-#' @param XTICKS logical referring to whether the explanatory variable is strictly categorical [default=TRUE]
-#' @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
-#' @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
-#'
-#' @return Return 0 if successful
-#'
-#' @examples
-#' x1 = rep(rep(rep(letters[1:5], each=5), times=5), times=5)
-#' x2 = rep(rep(letters[6:10], each=5*5), times=5)
-#' x3 = rep(letters[11:15], each=5*5*5)
-#' y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
-#' data = data.frame(x1, x2, x3, y)
-#' formula = y ~ x1 + x2 + x3 + (x2:x3)
-#' DF = parse_formula(formula=formula, data=data)
-#' plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
-#'
+# One explanatory variable at a time violin plotter
+#
+# @usage plot_violin_1x(dat, response_variable_name, explanatory_variable_name,
+#                title="", xlab="", ylab="",
+#                    COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
+#                BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
+#                CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10)
+#
+# @param dat dataframe where the response and explanatory variables including interaction terms if applicable are explicitly written into columns (output of the parse_formula() function) [mandatory]
+# @param response_variable_name string referring to the variable name of the response variable [mandatory]
+# @param explanatory_variable_name string referring to the variable name of the explanatory variable [mandatory]
+# @param title string corresponding to the explanatory term including additive and interaction terms in the formula [default=""]
+# @param xlab string specifying the x-axis label [default=""]
+# @param ylab string specifying the y-axis label [default=""]
+# @param COLOURS vector of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
+# @param BAR_COLOURS vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
+# @param CI numeric referring to the percent confidence interval [default=95]
+# @param XTICKS logical referring to whether the explanatory variable is strictly categorical [default=TRUE]
+# @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
+# @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
+#
+# @return Return 0 if successful
+#
+# @examples
+# x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
+# x2 = rep(rep(letters[6:10], each=5*5), times=5)
+# x3 = rep(letters[11:15], each=5*5*5)
+# y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
+# data = data.frame(x1, x2, x3, y)
+# formula = y ~ x1 + x2 + x3 + (x2:x3)
+# DF = parse_formula(formula=formula, data=data)
+# plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
+#
 #' @importFrom stats qnorm density aggregate
 #' @importFrom graphics par plot axis polygon arrows points grid par
-#'
-#' @export
+#
 plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10){
   ### extract the dependent or response or y variable, as well as the independent or explanatory or x variable
   x = as.character(eval(parse(text=paste0("dat$`", explanatory_variable_name, "`")))) ### numeric and categorical both treated as categorical
@@ -98,6 +97,8 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   ### define las: i.e. the orientation of the x-axis tick labels
   ### as well as the plot margins and the x-axis label
   max_nchar = max(unlist(lapply(x_levels, FUN=nchar)))
+  # orig_par = par(no.readonly=TRUE)
+  # on.exit(par(orig_par)) ### breaks the layout (justification: this funtion is only called by the main function: violinplotter())
   if (max_nchar > 7){
     las = 2
     par(mar=c(max_nchar*0.70, 5, 7, 2))
@@ -106,14 +107,20 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
     las =1
     par(mar=c(5, 5, 7, 2))
   }
+  ### find y-axis ticks location within the range of y
+  plot(y, type="n", main="", xlab="", ylab="", xaxt="n", yaxt="n")
+  y_ticks = axTicks(2)
+  par(new=TRUE)
   ### initialize the plot with or without the x-axis
   if (XTICKS==TRUE){
     ### for strictly categorical explanatory variable
-    plot(x=c(x_min-max_x_interval, x_max+max_x_interval), y=c(y_min-y_sd, y_max+y_sd), type="n", main=title, xlab=xlab, ylab=ylab, las=las, xaxt="n")
+    plot(x=c(x_min-max_x_interval, x_max+max_x_interval), y=c(y_min-y_sd, y_max+y_sd), new=FALSE, type="n", main=title, xlab=xlab, ylab=ylab, las=las, xaxt="n", yaxt="n")
     axis(side=1, at=x_numbers, labels=x_levels, las=las)
+    axis(side=2, at=y_ticks, labels=y_ticks, las=2)
   } else {
     ### for continuous explanatory variable
-    plot(x=c(x_min-max_x_interval, x_max+max_x_interval), y=c(y_min-y_sd, y_max+y_sd), type="n", main=title, xlab=xlab, ylab=ylab, las=las)
+    plot(x=c(x_min-max_x_interval, x_max+max_x_interval), y=c(y_min-y_sd, y_max+y_sd), new=FALSE, type="n", main=title, xlab=xlab, ylab=ylab, las=las, yaxt="n")
+    axis(side=2, at=y_ticks, labels=y_ticks, las=2)
   }
   ### iteratively plot the density of each explanatory variable level
   for (i in 1:length(x_levels)){
@@ -142,9 +149,9 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
       ### draw the polygon
       polygon(x=poly_x, y=poly_y, border=NA, col=COLOURS[i])
       ### plot the summary statistics
-      arrows(x0=x_numbers[i], y0=mu+sigma, y1=mu-sigma, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[1])
-      arrows(x0=x_numbers[i], y0=mu+se, y1=mu-se, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[2])
-      arrows(x0=x_numbers[i], y0=mu+ci, y1=mu-ci, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[3])
+      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+sigma, y1=mu-sigma, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[1]))
+      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+se, y1=mu-se, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[2]))
+      suppressWarnings(arrows(x0=x_numbers[i], y0=mu+ci, y1=mu-ci, angle=90, code=3, lwd=2, length=0.1, col=BAR_COLOURS[3]))
     }
     points(x=x_numbers[i], y=mu, pch=20)
     # print(x_levels[i])
