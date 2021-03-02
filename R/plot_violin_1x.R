@@ -148,7 +148,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
       poly_x = c(x_numbers[i]-rev(d$y*max_x_interval), x_numbers[i]+(d$y*max_x_interval))
       ### define the y-axis points of the polygon defined as the range of values of the response variable (df$y)
       poly_y = c(rev(d$x), d$x)
-      ### draw violin polygon and reeor bars when the variance is greater than 0
+      ### draw violin polygon and error bars when the variance is greater than 0
       if (sigma > 0){
         ### draw the polygon
         polygon(x=poly_x, y=poly_y, border=NA, col=COLOURS[i])
@@ -165,7 +165,9 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   ### plot grid lines
   grid()
   ### show the summary statistics legend
-  legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS), cex=(par(no.readonly=TRUE)$cex*0.75), lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", paste0(CI, "% Confidence Interval")))
+  if (sum(BAR_COLOURS!=rgb(1,0,0,alpha=0))>0){
+    legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS)[BAR_COLOURS!=rgb(1,0,0,alpha=0)], cex=(par(no.readonly=TRUE)$cex*0.75), lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", paste0(CI, "% Confidence Interval"))[BAR_COLOURS!=rgb(1,0,0,alpha=0)])
+  }
   ### return the levels and unique values of the x variable
   return(0)
 }

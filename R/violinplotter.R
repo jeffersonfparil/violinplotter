@@ -2,6 +2,7 @@
 #'
 #' @usage violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 #'  VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
+#'  PLOT_BARS=TRUE,
 #'  ERROR_BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
 #'  XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE,
 #'  ALPHA=0.05, REGRESSX=FALSE)
@@ -12,6 +13,7 @@
 #' @param XLAB string or vector of strings specifying the x-axis labels [default: column names of the explanatory variables (and their combinations) from data]
 #' @param YLAB string or vector of strings specifying the y-axis labels [default: column names of the response variable from data]
 #' @param VIOLIN_COLOURS vector or list of vectors of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels or less than the number of explanatory factors in the case of a list [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]
+#' @param PLOT_BARS logical (i.e. TRUE or FALSE) to plot all or none of the bars; or vector strings which bars to plot (e.g. "stdev", "sterr", "ci") [default=TRUE=c("stdev", "sterr", "ci")]
 #' @param ERROR_BAR_COLOURS vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]
 #' @param XCATEGOR logical or vector of logicals referring to whether the explanatory variable/s is/are strictly categorical [default=TRUE]
 #' @param LOGX logical or vector of logicals referring to whether to transform the explanatory variable/s into the logarithm scale [default=FALSE]
@@ -29,10 +31,11 @@
 #' x3 = rep(letters[11:15], each=5*5*5)
 #' y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
 #' formula = log(y) ~ exp(x1) + x2 + x3 + (x2:x3)
-#' OUT = violinplotter(formula=formula)
+#' test1 = violinplotter(formula=formula)
+#' test2 = violinplotter(formula=formula, PLOT_BARS=c("ci", "stdev"))
 #'
 #' @export
-violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){
+violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), PLOT_BARS=TRUE, ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){
   ### FOR TESTING: load the parsing, plotting, HSD, and regressing functions
   # source("parse_formula.R")
   # source("plot_violin_1x.R")
@@ -45,7 +48,12 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   # y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
   # formula = log(y) ~ exp(x1) + x2 + x3 + (x2:x3)
   # data = NULL
-  # TITLE=""; XLAB=""; YLAB=""; VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"); ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
+  # TITLE=""; XLAB=""; YLAB=""; VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")
+  # PLOT_BARS=TRUE; ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
+  # PLOT_BARS=FALSE; ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
+  # PLOT_BARS="sterr"; ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
+  # PLOT_BARS=c("ci", "sterr"); ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
+  # PLOT_BARS=c(); ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
   # XCATEGOR=TRUE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=FALSE
   # XCATEGOR=FALSE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=TRUE
 
@@ -87,6 +95,25 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
     XCATEGOR = rep(XCATEGOR, times=ncol(df)-1)
   }
   XCATEGOR[LOGX] = FALSE ### automatically convert factors into non-strictly categorcialy if they were set to be log-transformed!
+
+  ### Which statistical bars do we plot?
+  ERROR_BAR_COLOURS=rep(ERROR_BAR_COLOURS, times=3)[1:3] ### to make sure we have 3 error bar colours
+  orig_ERROR_BAR_COLOURS = ERROR_BAR_COLOURS
+  ERROR_BAR_COLOURS = rep(c(rgb(1,0,0,alpha=0)), times=3)
+  suppressWarnings(
+  if (PLOT_BARS==TRUE){
+    ERROR_BAR_COLOURS = orig_ERROR_BAR_COLOURS
+  }
+  )
+  if (sum(PLOT_BARS=="stdev")>0){
+    ERROR_BAR_COLOURS[1] = orig_ERROR_BAR_COLOURS[1]
+  } 
+  if (sum(PLOT_BARS=="sterr")>0){
+    ERROR_BAR_COLOURS[2] = orig_ERROR_BAR_COLOURS[2]
+  } 
+  if (sum(PLOT_BARS=="ci")>0){
+    ERROR_BAR_COLOURS[3] = orig_ERROR_BAR_COLOURS[3]
+  } 
 
   ### Do we have to perform Tukey's hones significant difference test across the explanatory variable/s?
   if (length(HSDX) != ncol(df)-1) {
