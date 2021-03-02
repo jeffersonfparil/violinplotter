@@ -39,7 +39,7 @@ parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
   }
   df =  eval(parse(text=paste0("data.frame(y=", response_var, ",", gsub("-", "_", gsub("\"", "'", paste(paste(explanatory_list), collapse=", "))), ")")))
   df = droplevels(df[complete.cases(df), ])
-  ### dettach the data if not NULL
+  ### detach the data if not NULL
   if (!is.null(data)){
     detach(data)
   }

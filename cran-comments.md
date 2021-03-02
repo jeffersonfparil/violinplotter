@@ -1,17 +1,18 @@
 ## Reason for update
-Submitting an immediate patch to hide the sub-functions from user space. One of these sub-functions specifically "plot_violin_1x.R" conflicts with the main function-defined  graphical parameters on exit of the function which renders the resulting figure malformed.
+Allowing to: (1) plot with a sample size of 1 as a single point, (2) annotate sample size printing, and exclusion of some/all the error bars.
 
 ## Test environments
-R version 3.6.2 (2017-01-27)
+R version 4.0.4 (2021-02-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 16.04.6 LTS
+Running under: Ubuntu 20.04.1 LTS
 
 ## R CMD check results
-There were no ERRORs or WARNINGs or NOTEs.
+There were no ERRORs or WARNINGs.
+There is 1 NOTE about best practices in attach(). I'm already using detach() but this expression is enclosed in an "if" statement if the data to attach exists.
 
 ## Spell checking
 Hex color codes are being identified as misspelled words.
-github, Github, https, jeffersonfparil, md, README, and YYYYMMDD are not mispelled.
+Github, github, https, jeffersonfparil, md, README, stdev, sterr, and YYYYMMDD are not mispelled.
 
 ## Unexpected files and folders
 The "misc/" directory is storing a README_for_github.md as well as the two png images used in this file.

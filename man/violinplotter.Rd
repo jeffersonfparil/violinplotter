@@ -6,7 +6,9 @@
 \usage{
 violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
  VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
+ PLOT_BARS=TRUE,
  ERROR_BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
+ SHOW_SAMPLE_SIZE=TRUE,
  XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE,
  ALPHA=0.05, REGRESSX=FALSE)
 }
@@ -23,7 +25,11 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 
 \item{VIOLIN_COLOURS}{vector or list of vectors of colors of the violin plots which are repeated if the length is less than the number of explanatory factor levels or less than the number of explanatory factors in the case of a list [default=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe")]}
 
+\item{PLOT_BARS}{logical (i.e. TRUE or FALSE) to plot all or none of the bars; or vector strings which bars to plot (e.g. "stdev", "sterr", "ci") [default=TRUE=c("stdev", "sterr", "ci")]}
+
 \item{ERROR_BAR_COLOURS}{vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]}
+
+\item{SHOW_SAMPLE_SIZE}{logical referring to whether or not to show the sample sizes for each category [default=TRUE]}
 
 \item{XCATEGOR}{logical or vector of logicals referring to whether the explanatory variable/s is/are strictly categorical [default=TRUE]}
 
@@ -50,8 +56,8 @@ x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
 x2 = rep(rep(letters[6:10], each=5*5), times=5)
 x3 = rep(letters[11:15], each=5*5*5)
 y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
-data = data.frame(x1, x2, x3, y)
-formula = y ~ x1 + x2 + x3 + (x2:x3)
-OUT = violinplotter(formula=formula, data=data)
+formula = log(y) ~ exp(x1) + x2 + x3 + (x2:x3)
+test1 = violinplotter(formula=formula)
+test2 = violinplotter(formula=formula, PLOT_BARS=c("ci", "stdev"))
 
 }

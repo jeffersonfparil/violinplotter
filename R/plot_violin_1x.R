@@ -32,7 +32,8 @@
 # plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
 #
 #' @importFrom stats qnorm density aggregate
-#' @importFrom graphics par plot axis polygon arrows points grid par
+#' @importFrom graphics par plot axis polygon arrows points grid par axTicks
+#' @importFrom grDevices rgb
 #
 plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name, title="", xlab="", ylab="", COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), CI=95, XTICKS=TRUE, LOG=FALSE, BASE=10){
   ### FOR TESTING:
