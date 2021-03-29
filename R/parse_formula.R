@@ -15,6 +15,7 @@
 # x2 = rep(rep(letters[6:10], each=5*5), times=5)
 # x3 = rep(letters[11:15], each=5*5*5)
 # y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
+# data = data.frame(x1, x2, x3, y)
 # formula = log(y) ~ exp(x1) + x2 + x3 + (x2:x3)
 # DF = parse_formula(formula=formula, data=data)
 #
@@ -26,7 +27,7 @@ parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
   explanatory_var = as.character(unlist(as.list(attr(terms(formula), "term.labels"))))
   ### attach the data if not NULL
   if (!is.null(data)){
-    attach(data)
+    eval(parse(text=paste0(names(data), " = data$", names(data), ";")))
   }
   ### build the dataframe with explicit interaction variables (columns) if included in the formula
   non_interaction_terms = explanatory_var[!grepl(":", explanatory_var)]
@@ -39,10 +40,6 @@ parse_formula = function(formula, data=NULL, IMPUTE=FALSE, IMPUTE_METHOD=mean){
   }
   df =  eval(parse(text=paste0("data.frame(y=", response_var, ",", gsub("-", "_", gsub("\"", "'", paste(paste(explanatory_list), collapse=", "))), ")")))
   df = droplevels(df[complete.cases(df), ])
-  ### detach the data if not NULL
-  if (!is.null(data)){
-    detach(data)
-  }
   ### impute missing response variable data?
   if (IMPUTE == TRUE) {
     idx_missing = is.na(df$y) | is.infinite(df$y)

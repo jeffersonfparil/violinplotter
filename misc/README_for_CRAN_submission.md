@@ -33,5 +33,4 @@ devtools::check_win_devel()
 ### Build and test
 ```
 devtools::release()
-
 ```
