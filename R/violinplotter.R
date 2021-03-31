@@ -60,6 +60,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
   # PLOT_BARS=c(); ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26");
   # XCATEGOR=TRUE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=FALSE
   # XCATEGOR=FALSE; LOGX=FALSE; LOGX_BASE=1; HSDX=TRUE; ALPHA=0.05; REGRESSX=TRUE
+  # SHOW_SAMPLE_SIZE=TRUE
 
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
   df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)

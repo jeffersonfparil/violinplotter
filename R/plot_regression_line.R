@@ -34,7 +34,7 @@ plot_regression_line = function(dat, response_variable_name, explanatory_variabl
   x_numbers = tryCatch(as.numeric(gsub("_", "-", as.character(x_levels))),
                   warning=function(e){as.numeric(as.factor(x_levels))})
   eval(parse(text=paste0("levels(dat$`", explanatory_variable_name, "`) = x_numbers")))
-  x = eval(parse(text=paste0("as.numeric(as.character(dat$`", explanatory_variable_name, "`))")))
+  x = eval(parse(text=paste0("as.numeric(as.factor(dat$`", explanatory_variable_name, "`))")))
   y = eval(parse(text=paste0("dat$`", response_variable_name, "`")))
   if (LOG==TRUE){
     if (sum(is.na(suppressWarnings(log(x, base=BASE))))==0){
