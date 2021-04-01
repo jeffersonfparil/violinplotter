@@ -1,7 +1,5 @@
 # News
-## Version 2.0.0
+## Version 2.0.1
 
 Allowing for:
-- n=1 plotting
-- sample size annotation
-- error bar inclusion/exclusion
+- fix explanatory variable parsing error in regression line plotting module
