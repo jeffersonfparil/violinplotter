@@ -1,5 +1,5 @@
 ## Reason for update
-Allowing to: (1) plot with a sample size of 1 as a single point, (2) annotate sample size printing, and exclusion of some/all the error bars.
+Hot fix for the bug in explanatory variable parsing in the regression line plotting module.
 
 ## Test environments
 R version 4.0.4 (2021-02-15)
