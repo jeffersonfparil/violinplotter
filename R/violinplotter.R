@@ -39,7 +39,7 @@
 #' @importFrom grDevices rgb
 #'
 #' @export
-violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), PLOT_BARS=TRUE, ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), SHOW_SAMPLE_SIZE=TRUE, XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){
+violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), PLOT_BARS=TRUE, ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), SHOW_SAMPLE_SIZE=TRUE, SHOW_MEANS=TRUE, XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){
   ### FOR TESTING: load the parsing, plotting, HSD, and regressing functions
   # source("parse_formula.R")
   # source("plot_violin_1x.R")
@@ -168,7 +168,8 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                     LOG=LOGX[i],
                                     BASE=LOGX_BASE[i],
                                     PLOT=TRUE,
-                                    SHOW_SAMPLE_SIZE=SHOW_SAMPLE_SIZE)
+                                    SHOW_SAMPLE_SIZE=SHOW_SAMPLE_SIZE,
+                                    SHOW_MEANS=SHOW_MEANS)
     } else {HSD_out = NULL}
     if (REGRESSX[i]==TRUE){
       message("======================================================")

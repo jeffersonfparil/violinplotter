@@ -29,7 +29,7 @@
 #' @importFrom stats aov anova sd
 #' @importFrom graphics text
 #
-mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE, SHOW_SAMPLE_SIZE=FALSE) {
+mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE, SHOW_SAMPLE_SIZE=FALSE, SHOW_MEANS=TRUE) {
   ### FOR TESTING:
   # data=NULL; explanatory_variable_name; alpha=0.05; LOG=FALSE; BASE=10; PLOT=FALSE; SHOW_SAMPLE_SIZE=FALSE
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
@@ -115,12 +115,15 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   if(PLOT){
     text(x=MERGE_GROUPING_DF$NUMBERS, y=max(response_var)+sd(response_var), lab=as.character(MERGE_GROUPING_DF$GROUPING))
   }
+  if(SHOW_MEANS){
+    text(x=MERGE_GROUPING_DF$NUMBERS, y=max(response_var)+(sd(response_var)/4), lab=paste0("(", round(MERGE_GROUPING_DF$MEANS,2), ")"))
+  }
   if(SHOW_SAMPLE_SIZE){
     sample_sizes = table(eval(parse(text=paste0("df$`", explanatory_variable_name, "`"))))
     SAMPLE_SIZES = as.data.frame(sample_sizes)
     colnames(SAMPLE_SIZES) = c("LEVELS", "SAMPLE_SIZES")
     MERGE_GROUPING_DF = merge(MERGE_GROUPING_DF, SAMPLE_SIZES, by="LEVELS")
-    text(x=MERGE_GROUPING_DF$NUMBERS, y=max(response_var)+(sd(response_var)/4), lab=paste0("(n=", MERGE_GROUPING_DF$SAMPLE_SIZES, ")"))
+    text(x=MERGE_GROUPING_DF$NUMBERS, y=max(response_var)+(sd(response_var)/16), lab=paste0("(n=", MERGE_GROUPING_DF$SAMPLE_SIZES, ")"))
   }
   return(MERGE_GROUPING_DF)
 }
