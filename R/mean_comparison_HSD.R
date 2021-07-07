@@ -11,6 +11,7 @@
 # @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
 # @param PLOT logical referring to whether or not to plot the mean comparison grouping letters into an existing plot [default=FALSE]
 # @param SHOW_SAMPLE_SIZE logical referring to whether or not to show the sample sizes of each factor level into an existing plot [default=FALSE]
+# @param SHOW_MEANS logical referring to whether or not to show the means [default=TRUE]
 #
 # @return Tukey's honest significant difference grouping table with response variable categorical means, grouping, level names and corresponding numeric counterparts
 # @return Appends honest significant difference grouping letters into an existing plot
