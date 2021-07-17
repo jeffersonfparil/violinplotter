@@ -163,7 +163,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
       message(paste0("HSD Grouping: ", explanatory_var_names[i]))
       message("======================================================")
       HSD_out = mean_comparison_HSD(formula=formula,
-                                    data=data,
+                                    data=df,
                                     explanatory_variable_name=explanatory_var_names[i],
                                     alpha=ALPHA,
                                     LOG=LOGX[i],
