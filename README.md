@@ -59,3 +59,5 @@ OUT_3 = supressMessages(violinplotter(formula = RESPONSE_2 ~ STRATUM + TREATMENT
 Sample output figure:
 
 <img src="misc/dummy_data_out.png" width="1200"></a>
+
+[!["Buying Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jeffersonfparil)
