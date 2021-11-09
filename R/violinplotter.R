@@ -158,7 +158,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                           XTICKS=XCATEGOR[i],
                                           LOG=LOGX[i],
                                           BASE=LOGX_BASE[i])
-    if (HSDX[i]==TRUE) | (SHOW_MEANS==TRUE){
+    if ((HSDX[i]==TRUE) | (SHOW_MEANS==TRUE)){
       message("======================================================")
       message(paste0("HSD Grouping: ", explanatory_var_names[i]))
       message("======================================================")
