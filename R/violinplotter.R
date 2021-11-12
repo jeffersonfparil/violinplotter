@@ -40,10 +40,11 @@
 #' @importFrom grDevices rgb
 #'
 #' @export
-violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), PLOT_BARS=TRUE, ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), SHOW_SAMPLE_SIZE=FALSE, SHOW_MEANS=TRUE, XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE){
+violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), PLOT_BARS=TRUE, ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), SHOW_SAMPLE_SIZE=FALSE, SHOW_MEANS=TRUE, XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, MANN_WHITNEYX=TRUE, HSDX=FALSE, ALPHA=0.05, REGRESSX=FALSE){
   ### FOR TESTING: load the parsing, plotting, HSD, and regressing functions
   # source("parse_formula.R")
   # source("plot_violin_1x.R")
+  # source("show_means_sample_sizes.R")
   # source("mean_comparison_HSD.R")
   # source("plot_regression_line.R")
   # source("violinplotter.R")
@@ -121,6 +122,11 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
     ERROR_BAR_COLOURS[3] = orig_ERROR_BAR_COLOURS[3]
   } 
 
+  ### Do we have to perform Mann-Whitney mean comparison test across the explanatory variable/s?
+  if (length(MANN_WHITNEYX) != ncol(df)-1) {
+    MANN_WHITNEYX = rep(MANN_WHITNEYX, times=ncol(df)-1)
+  }
+
   ### Do we have to perform Tukey's honest significant difference test across the explanatory variable/s?
   if (length(HSDX) != ncol(df)-1) {
     HSDX = rep(HSDX, times=ncol(df)-1)
@@ -158,21 +164,40 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                           XTICKS=XCATEGOR[i],
                                           LOG=LOGX[i],
                                           BASE=LOGX_BASE[i])
-    if ((HSDX[i]==TRUE) | (SHOW_MEANS==TRUE)){
+    if (SHOW_MEANS | SHOW_SAMPLE_SIZE){
+      message("======================================================")
+      message(paste0("Means and/or sample sizes for: ", explanatory_var_names[i]))
+      message("======================================================")
+      MEANS_SIZES_out = show_means_sample_sizes(formula=formula,
+                                                data=data,
+                                                explanatory_variable_name=explanatory_var_names[i],
+                                                SHOW_MEANS=SHOW_MEANS,
+                                                SHOW_SAMPLE_SIZE=SHOW_SAMPLE_SIZE)
+    } else {MEANS_SIZES_out = NULL}
+    if (MANN_WHITNEYX[i]){
+      message("======================================================")
+      message(paste0("Mann-Whitney Grouping (takes precedence over HSD): ", explanatory_var_names[i]))
+      message("======================================================")
+      MEAN_COMPARISON_out = mean_comparison_HSD(formula=formula,
+                                                data=data,
+                                                explanatory_variable_name=explanatory_var_names[i],
+                                                alpha=ALPHA,
+                                                LOG=LOGX[i],
+                                                BASE=LOGX_BASE[i],
+                                                PLOT=MANN_WHITNEYX[i])
+    } else if (HSDX[i]){
       message("======================================================")
       message(paste0("HSD Grouping: ", explanatory_var_names[i]))
       message("======================================================")
-      HSD_out = mean_comparison_HSD(formula=formula,
-                                    data=data,
-                                    explanatory_variable_name=explanatory_var_names[i],
-                                    alpha=ALPHA,
-                                    LOG=LOGX[i],
-                                    BASE=LOGX_BASE[i],
-                                    PLOT=HSDX[i],
-                                    SHOW_SAMPLE_SIZE=SHOW_SAMPLE_SIZE,
-                                    SHOW_MEANS=SHOW_MEANS)
-    } else {HSD_out = NULL}
-    if (REGRESSX[i]==TRUE){
+      MEAN_COMPARISON_out = mean_comparison_HSD(formula=formula,
+                                                data=data,
+                                                explanatory_variable_name=explanatory_var_names[i],
+                                                alpha=ALPHA,
+                                                LOG=LOGX[i],
+                                                BASE=LOGX_BASE[i],
+                                                PLOT=HSDX[i])
+    } else {MEAN_COMPARISON_out = NULL}
+    if (REGRESSX[i]){
       message("======================================================")
       message(paste0("Linear Regressing: ", explanatory_var_names[i]))
       message("======================================================")
@@ -184,7 +209,7 @@ violinplotter = function(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_
                                         PLOT=TRUE,
                                         LINE_COL="gray")
     } else {REGRESS_out = NULL}
-    OUT[[i]] = c(HSD_out=HSD_out, REGRESS_out=REGRESS_out)
+    OUT[[i]] = c(MEANS_SIZES_out=MEANS_SIZES_out, MEAN_COMPARISON_out=MEAN_COMPARISON_out, REGRESS_out=REGRESS_out)
   }
   return(OUT)
 }

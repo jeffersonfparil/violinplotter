@@ -1,4 +1,7 @@
 library(violinplotter)
+# ### local test
+# list_sources = system("ls *.R", intern=TRUE)
+# for (f in list_sources) {source(f)}
 x1 = rep(rep(rep(c(1:5), each=5), times=5), times=5)
 x2 = rep(rep(letters[6:10], each=5*5), times=5)
 x3 = rep(letters[11:15], each=5*5*5)
@@ -8,3 +11,5 @@ OUT_1 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.05)
 OUT_2 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.001)
 OUT_3 = violinplotter(formula=log(y) ~ exp(x1) + x2 + x3 + (x2:x3), data=data, ALPHA=0.001)
 OUT_4 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, XCATEGOR=c(F,T,T,T), LOGX=c(T,F,F,F), LOGX_BASE=c(2,1,1,1), REGRESSX=c(T,F,F,F))
+OUT_5 = violinplotter(formula=y ~ x1 + x2 + x3, data=data, MANN_WHITNEYX=FALSE, HSDX=TRUE, SHOW_MEANS=TRUE, SHOW_SAMPLE_SIZE=TRUE)
+OUT_6 = violinplotter(formula=y ~ x1 + x2 + x3, data=data, MANN_WHITNEYX=TRUE, HSDX=FALSE, SHOW_MEANS=TRUE)

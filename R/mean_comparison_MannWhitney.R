@@ -1,17 +1,17 @@
-# Tukey's mean comparison and grouping using fixed effect linear modeling
+# Mann-Whitney mean comparison - a non-parametric alternative to HSD when the treatments are non-normal and/or with non-homogenous variance
 #
-# @usage mean_comparison_HSD(formula, data=NULL, explanatory_variable_name, alpha=0.05,
+# @usage mean_comparison_Mann_Whitney(formula, data=NULL, explanatory_variable_name, alpha=0.05,
 #                    LOG=FALSE, BASE=10, PLOT=FALSE)
 #
 # @param formula R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]
 # @param data data.frame containing the response and explanatory variables which forms the formula above [default=NULL]
 # @param explanatory_variable_name string referring to the variable name of the explanatory variable whose class means will be compared [mandatory]
-# @param alpha numeric significance level for Tukey's mean comparison [default=0.05]
+# @param alpha numeric significance level for Mann-Whitney mean comparison [default=0.05]
 # @param LOG logical referring to whether to transform the explanatory variable into the logarithm scale [default=FALSE]
 # @param BASE numeric referring to the logarithm base to transform the explanatory variable with [default=1]
 # @param PLOT logical referring to whether or not to plot the mean comparison grouping letters into an existing plot [default=FALSE]
 #
-# @return Tukey's honest significant difference grouping table with response variable categorical means, grouping, level names and corresponding numeric counterparts
+# @return Mann-Whitney's pairwise mean comparison grouping table with response variable categorical means, grouping, level names and corresponding numeric counterparts
 # @return Appends honest significant difference grouping letters into an existing plot
 #
 # @examples
@@ -23,50 +23,59 @@
 # formula = y ~ x1 + x2 + x3 + (x2:x3)
 # DF = parse_formula(formula=formula, data=data)
 # plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
-# HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
+# MW = mean_comparison_Mann_Whitney(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
 #
 #' @importFrom stats aov anova sd
 #' @importFrom graphics text
 #
-mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE) {
+mean_comparison_Mann_Whitney = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE) {
   ### FOR TESTING:
   # data=NULL; explanatory_variable_name="x3"; alpha=0.05; LOG=FALSE; BASE=10; PLOT=FALSE; SHOW_SAMPLE_SIZE=FALSE
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
   df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)
   response_var = df[,1]; response_var_name = colnames(df)[1]
-  ### linear modelling
-  mod = aov(formula, data=df)
-  anova_table = as.data.frame(anova(mod))
-  if (anova_table$Pr[rownames(anova_table) == explanatory_variable_name] < alpha){
-    message(paste0(explanatory_variable_name, " has a significant effect on the response variable!"))
-  } else {
-    message(paste0(explanatory_variable_name, " has a no significant effect on the response variable!"))
-  }
   ### computate the means per explanatory variable level
   means = eval(parse(text=paste0("aggregate(",  response_var_name, "~ `", explanatory_variable_name, "`, data=df, FUN=mean)")))
   colnames(means) = c("LEVELS", "MEANS")
   means = means[order(means$MEANS, decreasing=TRUE), ]
-  ### compute the HSD pairwise comparison
-  tryCatch(eval(parse(text=paste0("mod$model$`", explanatory_variable_name, "` = as.factor(mod$model$`", explanatory_variable_name, "`)"))),
-    error=function(e){})
-  hsd = suppressWarnings(eval(parse(text=paste0("as.data.frame(TukeyHSD(mod, conf.level=", 1.00-alpha, ")$`", explanatory_variable_name, "`)"))))
+  ### prepare the explanatory variable names and corresponding numbers
+  x_levels = eval(parse(text=paste0("levels(as.factor(df$`", explanatory_variable_name, "`))")))
+  x_numbers = tryCatch(as.numeric(gsub("_", "-", as.character(x_levels))),
+                  warning=function(e){as.numeric(as.factor(x_levels))})
+  ### compute the Mann-Whitney pairwise mean comparison
+  factor1 = c()
+  factor2 = c()
+  pvalue = c()
+  for (i in 1:(length(x_levels)-1)){
+      level_1 = x_levels[i]
+      idx_1 = eval(parse(text=paste0("df$`", explanatory_variable_name, "` == '", level_1, "'")))
+      y_1 = response_var[idx_1]
+      for (j in (i+1):length(x_levels)){
+          level_2 = x_levels[j]
+          idx_2 = eval(parse(text=paste0("df$`", explanatory_variable_name, "` == '", level_2, "'")))
+          y_2 = response_var[idx_2]
+          ### Mann-Whitney test using the wilcox.text() function
+          mann_whitney_out = wilcox.test(x=y_1, y=y_2, altenative="two.sided")
+          factor1 = c(factor1, level_1)
+          factor2 = c(factor2, level_2)
+          pvalue = c(pvalue, mann_whitney_out$p.value)          
+      }
+  }
   ### add "LEVEL_" string to allow for explanatory variable that are originally numeric to be easily set as list names
-  factor_labels = matrix(paste0("LEVEL_", unlist(strsplit(rownames(hsd), "-"))), ncol=2, byrow=TRUE)
-  hsd$factor1 = factor_labels[,1]
-  hsd$factor2 = factor_labels[,2]
+  mw = data.frame(factor1=paste0("LEVEL_", factor1), factor2=paste0("LEVEL_", factor2), p=pvalue)
   factors_all = paste0("LEVEL_", as.character(means$LEVELS))
-  ### initialize the list of HSD grouping of each response variable level
+  ### initialize the list of Mann-Whitney test grouping of each response variable level
   GROUPING_LIST = eval(parse(text=paste0("list('LEVEL_", paste(as.character(means$LEVELS), collapse="'=c(), 'LEVEL_"), "'=c())")))
   ### generate the vector of letters and numbers for grouping
-  letters_vector = c(letters, LETTERS, 1:(nrow(hsd)^2))
+  letters_vector = c(letters, LETTERS, 1:(nrow(mw)^2))
   ### iterate across response variable level
   letter_counter = 1
   for (f in factors_all){
     # f = factors_all[1]
     ### subset the current factor level
-    subhsd = hsd[(hsd$factor1==f) | (hsd$factor2==f), ]
+    submw = mw[(mw$factor1==f) | (mw$factor2==f), ]
     ### identify the factor levels that are not significantly from the current factor level: f
-    nonsigfactors = unique(c(subhsd$factor1[subhsd$p > alpha], subhsd$factor2[subhsd$p > alpha]))
+    nonsigfactors = unique(c(submw$factor1[submw$p > alpha], submw$factor2[submw$p > alpha]))
     nonsigfactors = nonsigfactors[!(nonsigfactors %in% f)]
     ### define the current letter grouping
     letter_add = letters_vector[letter_counter]
@@ -95,10 +104,10 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   ### prepare the grouping list
   GROUPING_LIST = as.matrix(lapply(GROUPING_LIST, FUN=paste, collapse=""))
   GROUPING_LIST = data.frame(LEVELS=gsub("LEVEL_", "", as.character(rownames(GROUPING_LIST))), GROUPING=as.character(GROUPING_LIST[,1]))
-  ### prepare the explanatory variable names and corresponding numbers
-  x_levels = eval(parse(text=paste0("levels(as.factor(df$`", explanatory_variable_name, "`))")))
-  x_numbers = tryCatch(as.numeric(gsub("_", "-", as.character(x_levels))),
-                  warning=function(e){as.numeric(as.factor(x_levels))})
+  # ### prepare the explanatory variable names and corresponding numbers
+  # x_levels = eval(parse(text=paste0("levels(as.factor(df$`", explanatory_variable_name, "`))")))
+  # x_numbers = tryCatch(as.numeric(gsub("_", "-", as.character(x_levels))),
+  #                 warning=function(e){as.numeric(as.factor(x_levels))})
   if (LOG==TRUE){
     ### transform the level names into the corresponding level names we used previously (x_levels and x_numbers) because we will be merging dataframes below
     if(sum(is.na(suppressWarnings(log(x_numbers, base=BASE)))) == 0){
