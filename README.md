@@ -1,13 +1,14 @@
 # violinplotter
 ## Plotting and Comparing Means with Violin Plots
 
-|                                                        **Build Status**                                                                |                                                                              **CRAN**                                                                               |                                                   **License**                                                   |
-|:-----------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|**Build Status**|**CRAN**|**License**|
+|:---:|:---:|:---:|
 | <a href="https://github.com/jeffersonfparil/violinplotter/actions"><img src="https://github.com/jeffersonfparil/violinplotter/actions/workflows/r.yml/badge.svg"></a> | <a href="https://cran.r-project.org/package=violinplotter"><img src="https://www.r-pkg.org/badges/version/violinplotter"></a> | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 
 
-An R package for generating violin plots with optional mean comparison with Mann-Whitney test (default) or Tukey's honest significant difference and linear regression.
-This package aims to be a simple and quick visualization tool for comparing means and assessing trends of categorical factors.
+
+An R package for generating violin plots with optional mean comparison with nonparametric Mann-Whitney test (default) or parametric Tukey's honest significant difference and linear regression.
+This package aims to be a simple and quick visualization tool for comparing means and assessing trends of categorical variables.
 
 ## Usage
 
