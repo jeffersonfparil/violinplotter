@@ -5,13 +5,13 @@
 |:-----------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|
 | <a href="https://adaptive-evolution.biosciences.unimelb.edu.au/"><img src="misc/adaevo_lab_unimelb_2020.png" width="150"></a> | [![Build Status](https://travis-ci.com/jeffersonfparil/violinplotter.svg?branch=master)](https://travis-ci.com/jeffersonfparil/violinplotter) | <a href="https://github.com/jeffersonfparil/violinplotter/wiki" target="_blank"><img src="https://img.shields.io/badge/docs-latest-blue.svg" alt="Latest documentation"></a> | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 
-An R package for generating violin plots with optional mean comparison with Tukey's honest significant difference and linear regression.
+An R package for generating violin plots with optional mean comparison with Mann-Whitney test (default) or Tukey's honest significant difference and linear regression.
 This package aims to be a simple and quick visualization tool for comparing means and assessing trends of categorical factors.
 
 ## Usage
 
 ```r
-violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=1, HSDX=TRUE, ALPHA=0.05, REGRESSX=FALSE)
+violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="", VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), PLOT_BARS=TRUE, ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), SHOW_SAMPLE_SIZE=FALSE, SHOW_MEANS=TRUE, XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, MANN_WHITNEYX=TRUE, HSDX=FALSE, ALPHA=0.05, REGRESSX=FALSE)
 ?violinplotter ### for more information
 ```
 
@@ -42,6 +42,7 @@ data = data.frame(x1, x2, x3, y)
 OUT_1 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.05)
 OUT_2 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, ALPHA=0.001)
 OUT_3 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, XCATEGOR=c(F,T,T,T), LOGX=c(T,F,F,F), LOGX_BASE=c(2,1,1,1), REGRESSX=c(T,F,F,F))
+OUT_4 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, MANN_WHITNEYX=FALSE, HSDX=TRUE, ALPHA=0.05)
 if (sum(grepl("RColorBrewer", installed.packages()[,1]))!=0){
   OUT_4 = violinplotter(formula=y ~ x1 + x2 + x3 + (x2:x3), data=data, VIOLIN_COLOURS=list(RColorBrewer::brewer.pal(9, "Set1"), RColorBrewer::brewer.pal(9, "Spectral"), RColorBrewer::brewer.pal(9, "GnBu")))
 }

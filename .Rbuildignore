@@ -1,4 +1,4 @@
-.travis.yml
+.github/
 misc
 cran-comments.md
 ^CRAN-RELEASE$
