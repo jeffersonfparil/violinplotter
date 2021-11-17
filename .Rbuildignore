@@ -1,4 +1,6 @@
-.github/
+.git
+.github
 misc
 cran-comments.md
 ^CRAN-RELEASE$
+^\.Rbuildignore$

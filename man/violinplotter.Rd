@@ -4,13 +4,23 @@
 \alias{violinplotter}
 \title{Plotting and Comparing Means with Violin Plots}
 \usage{
-violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
- VIOLIN_COLOURS=c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe"),
- PLOT_BARS=TRUE,
- ERROR_BAR_COLOURS=c("#636363","#1c9099","#de2d26"),
- SHOW_SAMPLE_SIZE=TRUE,
- XCATEGOR=TRUE, LOGX=FALSE, LOGX_BASE=10, HSDX=TRUE,
- ALPHA=0.05, REGRESSX=FALSE)
+violinplotter(formula, 
+                     data=NULL, 
+                     TITLE="", 
+                     XLAB="", 
+                     YLAB="", 
+                     VIOLIN_COLOURS=c("#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe"), 
+                     PLOT_BARS=TRUE, 
+                     ERROR_BAR_COLOURS=c("#636363", "#1c9099", "#de2d26"), 
+                     SHOW_SAMPLE_SIZE=FALSE, 
+                     SHOW_MEANS=TRUE, 
+                     CATEGORICAL=TRUE, 
+                     LOGX=FALSE, 
+                     LOGX_BASE=10, 
+                     MANN_WHITNEY=TRUE, 
+                     HSD=FALSE, 
+                     ALPHA=0.05, 
+                     REGRESS=FALSE)
 }
 \arguments{
 \item{formula}{R's compact symbolic form to represent linear models with fixed additive and interaction effects (See ?formula for more information) [mandatory]}
@@ -29,19 +39,23 @@ violinplotter(formula, data=NULL, TITLE="", XLAB="", YLAB="",
 
 \item{ERROR_BAR_COLOURS}{vector of colors of standard deviation, standard error and 95 percent confidence interval error bars (error bar selection via leaving one of the three colors empty) [default=c("#636363", "#1c9099", "#de2d26")]}
 
-\item{SHOW_SAMPLE_SIZE}{logical referring to whether or not to show the sample sizes for each category [default=TRUE]}
+\item{SHOW_SAMPLE_SIZE}{logical referring to whether or not to show the sample sizes for each category [default=FALSE]}
 
-\item{XCATEGOR}{logical or vector of logicals referring to whether the explanatory variable/s is/are strictly categorical [default=TRUE]}
+\item{SHOW_MEANS}{logical referring to whether or not to show the means [default=TRUE]}
+
+\item{CATEGORICAL}{logical or vector of logicals referring to whether the explanatory variable/s is/are strictly categorical [default=TRUE]}
 
 \item{LOGX}{logical or vector of logicals referring to whether to transform the explanatory variable/s into the logarithm scale [default=FALSE]}
 
 \item{LOGX_BASE}{numeric or vector of numerics referring to the logarithm base to transform the explanatory variable/s with [default=1]}
 
-\item{HSDX}{logical or vector of logicals referring to whether to perform Tukey's Honest Significance Grouping [default=TRUE]}
+\item{MANN_WHITNEY}{logical or vector of logicals referring to whether to perform Mann-Whitney Grouping [default=TRUE]}
+
+\item{HSD}{logical or vector of logicals referring to whether to perform Tukey's Honest Significance Grouping [default=FALSE]}
 
 \item{ALPHA}{numeric significance level for the analysis of variance F-test and Tukey's mean comparison [default=0.05]}
 
-\item{REGRESSX}{logical or vector of logicals referring to whether to regress the response variable against the explanatory variable/s [default=FALSE]}
+\item{REGRESS}{logical or vector of logicals referring to whether to regress the response variable against the explanatory variable/s [default=FALSE]}
 }
 \value{
 Violin plot/s with optional error bars, mean comparison grouping/s, and regression line/s

@@ -25,7 +25,7 @@
 # plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
 # MW = mean_comparison_Mann_Whitney(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
 #
-#' @importFrom stats aov anova sd
+#' @importFrom stats wilcox.test
 #' @importFrom graphics text
 #
 mean_comparison_Mann_Whitney = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE) {
@@ -55,7 +55,7 @@ mean_comparison_Mann_Whitney = function(formula, data=NULL, explanatory_variable
           idx_2 = eval(parse(text=paste0("df$`", explanatory_variable_name, "` == '", level_2, "'")))
           y_2 = response_var[idx_2]
           ### Mann-Whitney test using the wilcox.text() function
-          mann_whitney_out = wilcox.test(x=y_1, y=y_2, altenative="two.sided")
+          mann_whitney_out = stats::wilcox.test(x=y_1, y=y_2, altenative="two.sided")
           factor1 = c(factor1, level_1)
           factor2 = c(factor2, level_2)
           pvalue = c(pvalue, mann_whitney_out$p.value)          
