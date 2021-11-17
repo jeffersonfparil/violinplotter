@@ -1,5 +1,5 @@
 ## Reason for update
-Hot fix for the bug in explanatory variable parsing in the regression line plotting module.
+Adding nonparametric pairwise mean comparison using Mann-Whitney test, in addition to the existing parametric Tukey's honest significant difference.
 
 ## Test environments
 R version 4.1.0 (2021-05-18)

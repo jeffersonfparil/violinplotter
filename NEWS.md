@@ -1,4 +1,4 @@
 # News
 ## Version 3.0.0
 
-Major release adding nonparametric mean comparison - Mann-Whitney test, and setting this by default instead on Tukey's HSD.
+This is a major release where we added a nonparametric mean comparison - Mann-Whitney test, and setting this as the default method instead of Tukey's honest significant difference.
