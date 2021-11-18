@@ -7,7 +7,7 @@
 
 
 
-An R package for generating violin plots with optional mean comparison with nonparametric Mann-Whitney test (default) or parametric Tukey's honest significant difference and linear regression.
+R package for generating violin plots with optional mean comparison with nonparametric Mann-Whitney test (default) or parametric Tukey's honest significant difference and linear regression.
 This package aims to be a simple and quick visualisation tool for comparing means and assessing trends of categorical variables.
 
 ## Usage
