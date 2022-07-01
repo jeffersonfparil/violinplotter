@@ -20,20 +20,26 @@
 # x3 = rep(letters[11:15], each=5*5*5)
 # y = rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1))
 # data = data.frame(x1, x2, x3, y)
-# formula = y ~ x1 + x2 + x3 + (x2:x3)
+# formula = y ~ x1 + (x2:x3)
 # DF = parse_formula(formula=formula, data=data)
-# plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x3")
-# HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x3", PLOT=TRUE)
+# plot_violin_1x(dat=DF, response_variable_name="y", explanatory_variable_name="x2:x3")
+# HSD = mean_comparison_HSD(formula, data=data, explanatory_variable_name="x2:x3", PLOT=TRUE)
 #
 #' @importFrom stats aov anova sd
 #' @importFrom graphics text
 #
 mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE) {
   ### FOR TESTING:
-  # data=NULL; explanatory_variable_name="x3"; alpha=0.05; LOG=FALSE; BASE=10; PLOT=FALSE; SHOW_SAMPLE_SIZE=FALSE
+  # data=data.frame(x1=rep(rep(rep(c(1:5), each=5), times=5), times=5), x2=rep(rep(letters[6:10], each=5*5), times=5), x3=rep(letters[11:15], each=5*5*5), y=rep(1:5, each=5*5*5) + rnorm(rep(1:5, each=5), length(x1)))
+  # formula=y ~ x1 + (x2:x3); explanatory_variable_name="x2:x3"; alpha=0.05; LOG=FALSE; BASE=10; PLOT=FALSE; SHOW_SAMPLE_SIZE=FALSE
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
   df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)
   response_var = df[,1]; response_var_name = colnames(df)[1]
+  ### rename LEVELS with ":" characters to prevent evaluating the ":" as interaction
+  colnames(df) = gsub(":", "_", colnames(df))
+  explanatory_variable_name = gsub(":", "_", explanatory_variable_name)
+  formula = as.formula(gsub(":", "_", format(formula)))
+  eval(parse(text=paste0("df$`", explanatory_variable_name, "` = gsub(':', '_', df$`", explanatory_variable_name, "`)")))
   ### linear modelling
   mod = aov(formula, data=df)
   anova_table = as.data.frame(anova(mod))
@@ -41,6 +47,7 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
     message(paste0(explanatory_variable_name, " has a significant effect on the response variable!"))
   } else {
     message(paste0(explanatory_variable_name, " has a no significant effect on the response variable!"))
+    return(0)
   }
   ### computate the means per explanatory variable level
   means = eval(parse(text=paste0("aggregate(",  response_var_name, "~ `", explanatory_variable_name, "`, data=df, FUN=mean)")))
@@ -58,38 +65,44 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   ### initialize the list of HSD grouping of each response variable level
   GROUPING_LIST = eval(parse(text=paste0("list('LEVEL_", paste(as.character(means$LEVELS), collapse="'=c(), 'LEVEL_"), "'=c())")))
   ### generate the vector of letters and numbers for grouping
-  letters_vector = c(letters, LETTERS, 1:(nrow(hsd)^2))
-  ### iterate across response variable level
+  letters_vector = c(letters, LETTERS)
+  if (length(letters_vector) < length(GROUPING_LIST)){
+    letters_vector = c(letters_vector, 1:(length(GROUPING_LIST)-length(letters_vector)))
+  } else {
+    letters_vector = letters_vector[1:length(GROUPING_LIST)]
+  }
+  ### find the centres
   letter_counter = 1
-  for (f in factors_all){
-    # f = factors_all[1]
-    ### subset the current factor level
-    subhsd = hsd[(hsd$factor1==f) | (hsd$factor2==f), ]
-    ### identify the factor levels that are not significantly from the current factor level: f
-    nonsigfactors = unique(c(subhsd$factor1[subhsd$p > alpha], subhsd$factor2[subhsd$p > alpha]))
-    nonsigfactors = nonsigfactors[!(nonsigfactors %in% f)]
-    ### define the current letter grouping
-    letter_add = letters_vector[letter_counter]
-    new_letter_bool = 0 ### for testing if we need a new letter
-    ### iterate across non-significantly different factor levels to the current factor
-    for (g in nonsigfactors){
-      # g = nonsigfactors[1]
-      f_letters = eval(parse(text=paste0("GROUPING_LIST$`", f, "`"))) ### currect factor grouping
-      g_letters = eval(parse(text=paste0("GROUPING_LIST$`", g, "`"))) ### grouping of the non-siginificantly different factor level
-      ### if we have all significantly different means at the start
-      if (is.na(g)){
-        eval(parse(text=paste0("GROUPING_LIST$`", f, "` = c(", "GROUPING_LIST$`", g, "`, '", letter_add, "')")))
-        new_letter_bool = new_letter_bool + 1
-      } else if ( !((sum(f_letters %in% g_letters)>0) | (sum(g_letters %in% f_letters)>0)) | is.null(f_letters) ) {
-        ### test if the current factor level is the same as the non-siginificantly different factor level or if we are at the start
-        eval(parse(text=paste0("GROUPING_LIST$`", g, "` = c(", "GROUPING_LIST$`", g, "`, '", letter_add, "')")))
-        new_letter_bool = new_letter_bool + 1
+  i = 1
+  GROUPING_LIST[[i]] = letters_vector[letter_counter]
+  while (i<length(factors_all)){
+    f1 = factors_all[i]
+    for (j in (i+1):length(factors_all)){
+      # j = 2
+      f2 = factors_all[j]
+      p = hsd$`p adj`[((hsd$factor1==f1)&(hsd$factor2==f2)) | ((hsd$factor1==f2)&(hsd$factor2==f1))]
+      if (p < alpha){
+        letter_counter = letter_counter + 1
+        GROUPING_LIST[[j]] = letters_vector[letter_counter]
+        i = j
+        break
       }
     }
-    ### add the current letter grouping
-    if ((new_letter_bool>0) | (length(nonsigfactors)==0)){
-      eval(parse(text=paste0("GROUPING_LIST$`", f, "` = c(", "GROUPING_LIST$`", f, "`, '", letter_add, "')")))
-      letter_counter = letter_counter + 1
+    i = j
+  }
+  ### apped letter of centres where they are not significantly different
+  for (f in names(GROUPING_LIST)[unlist(lapply(GROUPING_LIST, FUN=function(x){!is.null(x)}))]){
+    # f = names(GROUPING_LIST)[unlist(lapply(GROUPING_LIST, FUN=function(x){!is.null(x)}))][3]
+    subhsd = hsd[(hsd$factor1==f) | (hsd$factor2==f), ]
+    idx = subhsd$`p adj` >= alpha
+    if (sum(idx) > 0){
+      subhsd = subhsd[idx, ]
+      subhsd = unique(c(subhsd$factor1, subhsd$factor2))
+      for (g in subhsd[subhsd != f]){
+        # g = subhsd[subhsd != f][1]
+        l = eval(parse(text=paste0("GROUPING_LIST$", f)))
+        eval(parse(text=paste0("GROUPING_LIST$", g, " = paste0(GROUPING_LIST$", g, ",'", l, "')")))
+      }
     }
   }
   ### prepare the grouping list
