@@ -35,9 +35,11 @@ mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, al
   ### parse the formula and generate the dataframe with explicit interaction terms if expressed in the formula
   df = parse_formula(formula=formula, data=data, IMPUTE=FALSE, IMPUTE_METHOD=mean)
   response_var = df[,1]; response_var_name = colnames(df)[1]
-  ### rename LEVELS with ":" characters to prevent evaluating the ":" as interaction
+  ### rename interaction effects and their levels by replacing ":" with "_"
   colnames(df) = gsub(":", "_", colnames(df))
   explanatory_variable_name = gsub(":", "_", explanatory_variable_name)
+  terms = attr(terms.formula(formula), "term.labels")
+  formula = paste0(unlist(strsplit(format(formula), "~"))[1], "~", paste(terms, collapse="+"))
   formula = as.formula(gsub(":", "_", format(formula)))
   eval(parse(text=paste0("df$`", explanatory_variable_name, "` = gsub(':', '_', df$`", explanatory_variable_name, "`)")))
   ### linear modelling
