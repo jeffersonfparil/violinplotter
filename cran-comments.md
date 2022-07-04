@@ -7,7 +7,8 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Manjaro 5.16.20-2
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTEs.
+There were no ERRORs or WARNINGs.
+There is a NOTE about the existence of .git and .github directories which are used by git and github workflows and are not part of the package.
 
 ## Spell checking
 Hex color codes are being identified as misspelled words.
