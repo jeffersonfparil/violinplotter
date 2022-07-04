@@ -1,0 +1,17 @@
+citHeader("To cite violinplotter in publications use:")
+
+citEntry(
+  entry    = "Unpublished",
+  note     = "Github repository, author orcid.org/0000-0002-5693-4123",
+  title    = "violinplotter",
+  author   = "Jefferson Paril",
+  journal  = "N/A",
+  year     = 2022,
+  volume   = "N/A",
+  number   = "N/A",
+  pages    = "N/A",
+  url      = "https://github.com/jeffersonfparil/violinplotter",
+  textVersion = paste(
+
+  )
+)

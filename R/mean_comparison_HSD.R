@@ -27,6 +27,7 @@
 #
 #' @importFrom stats aov anova sd
 #' @importFrom graphics text
+#' @importFrom stats as.formula terms.formula
 #
 mean_comparison_HSD = function(formula, data=NULL, explanatory_variable_name, alpha=0.05, LOG=FALSE, BASE=10, PLOT=FALSE) {
   ### FOR TESTING:
