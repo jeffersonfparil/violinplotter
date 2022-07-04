@@ -21,8 +21,11 @@ devtools::document()
 
 ### Check R-hub
 ```
-devtools::check_rhub()
-# rhub::validate_email(email = "jeffersonparil@gmail.com", token = "2ea6e47d16274a32a4cca5f744e5f20") ### if token is unavailable
+rhub::validate_email(email="jeffersonparil@gmail.com", token="6e4f2f593e0d4f328ec479648e23cee1")
+rhub::validate_email()
+# then select the email
+# wait for the email with the new token and paste the new token
+devtools::check_rhub(platforms="solaris-x86-patched")
 ```
 
 ### Check win-builder

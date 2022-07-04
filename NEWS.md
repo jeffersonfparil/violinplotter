@@ -1,4 +1,4 @@
 # News
-## Version 3.0.0
+## Version 3.0.1
 
-This is a major release where we added a nonparametric mean comparison - Mann-Whitney test, and setting this as the default method instead of Tukey's honest significant difference.
+Bug fix: rectifying non-concise groupings based on significant pairwise differences

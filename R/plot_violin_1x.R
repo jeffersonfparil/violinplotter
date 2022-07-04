@@ -167,7 +167,7 @@ plot_violin_1x = function(dat, response_variable_name, explanatory_variable_name
   grid()
   ### show the summary statistics legend
   if (sum(BAR_COLOURS!=rgb(1,0,0,alpha=0))>0){
-    legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS)[BAR_COLOURS!=rgb(1,0,0,alpha=0)], cex=(par(no.readonly=TRUE)$cex*0.75), lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", paste0(CI, "% Confidence Interval"))[BAR_COLOURS!=rgb(1,0,0,alpha=0)])
+    legend("bottomright", inset=c(0, 1), xpd=TRUE, horiz=TRUE, bty="n", col=unlist(BAR_COLOURS)[BAR_COLOURS!=rgb(1,0,0,alpha=0)], cex=(par(no.readonly=TRUE)$cex*0.5), lty=1, lwd=2, legend=c("Standard Deviation", "Standard Error", paste0(CI, "% Confidence Interval"))[BAR_COLOURS!=rgb(1,0,0,alpha=0)])
   }
   ### return the levels and unique values of the x variable
   return(0)
